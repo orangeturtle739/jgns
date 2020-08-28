@@ -17,6 +17,12 @@ in {
         UUID of the LUKS volume on which the backups are stored.
       '';
     };
+    backupDir = mkOption {
+      type = types.str;
+      description = ''
+        Directory where backup is stored.
+      '';
+    };
     keyFilePath = mkOption {
       type = types.str;
       description = ''
@@ -44,8 +50,9 @@ in {
         Service = {
           Type = "simple";
           ExecStartPre =
-            "${pkgs.udiskie}/bin/udiskie-mount --recursive ${cfg.cryptUuid}";
-          ExecStart = "${jgrestic}/bin/jgrestic backup";
+            "${pkgs.udiskie}/bin/udiskie-mount --verbose --recursive ${cfg.cryptUuid}";
+          ExecStart = "${jgrestic}/bin/jgrestic backup --root ${cfg.backupDir}";
+          TimeoutStartSec = "2min";
         };
       };
     };
