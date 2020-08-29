@@ -44,7 +44,6 @@ in {
     };
     nix = {
       package = pkgs.nixFlakes;
-      systemFeatures = [ "recursive-nix" "nix-command" ];
       extraOptions = "experimental-features = nix-command flakes recursive-nix";
     };
 
