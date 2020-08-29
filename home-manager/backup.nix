@@ -51,7 +51,7 @@ in {
           Type = "simple";
           ExecStartPre =
             "${pkgs.udiskie}/bin/udiskie-mount --verbose --recursive ${cfg.cryptUuid}";
-          ExecStart = "${jgrestic}/bin/jgrestic backup --root ${cfg.backupDir}";
+          ExecStart = "${jgrestic}/bin/jgrestic backup ${cfg.backupDir}";
           TimeoutStartSec = "2min";
         };
       };
