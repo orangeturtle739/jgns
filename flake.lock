@@ -92,11 +92,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1597188193,
-        "narHash": "sha256-MWHosfpdPz0NAMJoAsxOkM4xlh4A9ClRigjDqt8Lmj4=",
+        "lastModified": 1598703906,
+        "narHash": "sha256-mi2Jkk2J7TCMj9HwO/3cV1Nr8eFeHguNGSNY5C6fnsw=",
         "owner": "orangeturtle739",
         "repo": "jgrestic",
-        "rev": "af1389bfba4fb8242628a7c2af6ed4fb49ab8363",
+        "rev": "a87217a2f39be71f700476e9ee795046940c55b1",
         "type": "github"
       },
       "original": {
