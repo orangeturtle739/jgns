@@ -10,10 +10,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     jgrestic.url = "github:orangeturtle739/jgrestic";
+    duckdns-update.url = "github:orangeturtle739/duckdns-update";
   };
 
-  outputs =
-    { self, nixpkgs, nixpkgs-unstable, home-manager, flake-utils, jgrestic }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, flake-utils
+    , jgrestic, duckdns-update }:
     let
       packageSet = flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
         (system:
@@ -27,6 +28,7 @@
             base-unstable = importNixpkgs nixpkgs-unstable;
             jgnsPackages = {
               jgrestic = jgrestic.defaultPackage.${system};
+              duckdns-update = duckdns-update.defaultPackage.${system};
               solarwolf = base.callPackage ./packages/solarwolf { };
               ternimal = base.callPackage ./packages/ternimal { };
               codemod = base.callPackage ./packages/codemod { };
@@ -63,9 +65,19 @@
                 ./home-manager/common.nix
               ];
             };
+            jgnsNixos = { ... }: {
+              imports = map (mkModule extra) [
+                ./nixos/common.nix
+                ./nixos/encrypted.nix
+                ./nixos/trackpad.nix
+                ./nixos/laptop-power.nix
+                ./nixos/duckdns.nix
+              ];
+            };
           in {
             packages = jgnsPackages;
             homeModules = { jgns = jgnsHome; };
+            nixosModules = { jgns = jgnsNixos; };
           });
     in packageSet // {
       lib = {
@@ -76,16 +88,6 @@
             type = "app";
             program = "${package}/activate";
           };
-        };
-      };
-      nixosModules = {
-        jgns = { ... }: {
-          imports = [
-            ./nixos/common.nix
-            ./nixos/encrypted.nix
-            ./nixos/trackpad.nix
-            ./nixos/laptop-power.nix
-          ];
         };
       };
     };
