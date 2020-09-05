@@ -16,21 +16,21 @@ in {
     configFile = mkOption {
       type = types.str;
       description = ''
-		path to TOML configuration file with domain and token.
+        path to TOML configuration file with domain and token.
       '';
     };
     timerOnCalendar = mkOption {
       type = types.str;
-	  default = "*:0/5";
+      default = "*:0/5";
       description = ''
-		systemd timer OnCalendar spec
+        systemd timer OnCalendar spec
       '';
     };
     timerRandomizedDelay = mkOption {
       type = types.str;
-	  default = "1m";
+      default = "1m";
       description = ''
-		systemd RandomizedDelaySec field
+        systemd RandomizedDelaySec field
       '';
     };
   };
