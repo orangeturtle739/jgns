@@ -23,15 +23,15 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": [
-          "nixpkgs-unstable"
+          "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1599342336,
-        "narHash": "sha256-nEuCgx2OIAOcbkr0LUBfGMZuTrg7uXFIccCPAMzxcFo=",
+        "lastModified": 1599696504,
+        "narHash": "sha256-ht8jW3djkaD4FFJYRKe1n8qq59vXgCz74jeljtpCYzY=",
         "owner": "orangeturtle739",
         "repo": "duckdns-update",
-        "rev": "74818f0a43bcee34b1347d49e3c9f39113192767",
+        "rev": "d72314f3514300b1ade33db8a73a77445f0fdbb8",
         "type": "github"
       },
       "original": {

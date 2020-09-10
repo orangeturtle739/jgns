@@ -143,6 +143,7 @@ in {
       DebugLogging stderr
     '';
     programs.system-config-printer.enable = true;
+    hardware.sane.enable = true;
 
     hardware.pulseaudio = {
       enable = true;

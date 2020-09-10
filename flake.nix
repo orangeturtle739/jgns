@@ -12,7 +12,7 @@
     jgrestic.url = "github:orangeturtle739/jgrestic";
     duckdns-update = {
       url = "github:orangeturtle739/duckdns-update";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
