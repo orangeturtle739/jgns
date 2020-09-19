@@ -13,11 +13,11 @@ in {
         Enable the JGNS common setup.
       '';
     };
-    idleTimeoutSec = mkOption {
+    idleTimeoutMin = mkOption {
       type = types.ints.unsigned;
-      default = 300;
+      default = 5;
       description = ''
-        Timeout after which to lock the scren, in seconds.
+        Timeout after which to lock the screen, in minutes.
       '';
     };
   };
@@ -63,7 +63,6 @@ in {
       git
       mkpasswd
       python3
-      restic
       tmux
       tree
       vim
@@ -167,14 +166,15 @@ in {
         '';
       };
       windowManager.awesome.enable = true;
-    };
-
-    services.logind = {
-      extraConfig = ''
-        IdleAction=lock
-        IdleActionSec=${toString cfg.idleTimeoutSec}
+      # https://wiki.archlinux.org/index.php/Display_Power_Management_Signaling
+      serverFlagsSection = ''
+        Option "BlankTime" "${toString cfg.idleTimeoutMin}"
+        Option "StandbyTime" "${toString cfg.idleTimeoutMin}"
+        Option "SuspendTime" "${toString cfg.idleTimeoutMin}"
+        Option "OffTime" "${toString cfg.idleTimeoutMin}"
       '';
     };
+
     systemd = {
       services.lock = {
         before = [ "sleep.target" ];

@@ -69,6 +69,8 @@
               ./home-manager/chromium.nix
               ./home-manager/graphical-session
               ./home-manager/common.nix
+              ./home-manager/ssh-tunnel.nix
+              ./home-manager/udiskie.nix
             ];
           };
           jgnsNixos = { ... }: {

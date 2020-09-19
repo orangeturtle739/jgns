@@ -50,13 +50,18 @@ in {
         command = "${pkgs.ckb-next}/bin/ckb-next --background";
       };
     };
+
     services.blueman-applet.enable = true;
     services.network-manager-applet.enable = true;
-    services.udiskie = {
+    jgns.udiskie = {
       enable = true;
-      automount = false;
-      notify = true;
-      tray = "always";
+      config = {
+        program_options = {
+          tray = true;
+          notify = true;
+          automount = true;
+        };
+      };
     };
     services.unclutter.enable = true;
 
