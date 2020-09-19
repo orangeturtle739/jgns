@@ -68,6 +68,9 @@ in {
       vim
       wget
       lightlocker
+      (pkgs.writeScriptBin "home-rebuild" ''
+        nix run "$@" .#$(hostname)-home
+      '')
     ];
 
     programs.light.enable = true;
