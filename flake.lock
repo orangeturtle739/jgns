@@ -128,11 +128,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1600525266,
-        "narHash": "sha256-YDefOoRNt3af7FeyRiZIrBO/ZUrK6PPaJpOKyG01deE=",
+        "lastModified": 1600636289,
+        "narHash": "sha256-tU1tIDdEKaBuhjA+fu8MOvC19cv21qXrga7ctAWQTtM=",
         "owner": "orangeturtle739",
         "repo": "jgrestic",
-        "rev": "55688308ef2cb508787399c76c0fded8d372cc15",
+        "rev": "4702039e41122f51b3dda7c8d728ef825cf9e2be",
         "type": "github"
       },
       "original": {
