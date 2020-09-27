@@ -49,6 +49,27 @@ in {
     };
 
     boot.kernelPackages = pkgs.linuxPackages_latest;
+    boot.kernel.sysctl = {
+      # https://unix.stackexchange.com/questions/107703/why-is-my-pc-freezing-while-im-copying-a-file-to-a-pendrive/107722#107722
+      # https://lwn.net/Articles/572911/
+      # https://lwn.net/Articles/682582/
+      # https://sysctl-explorer.net/vm/dirty_bytes/
+      # https://sysctl-explorer.net/vm/dirty_background_bytes/
+      # dirty_background_ratio specifies a percentage of memory; when at least
+      # that percentage is dirty, the kernel will start writing those dirty
+      # pages back to the backing device. So, if a system has 1000 pages of
+      # memory and dirty_background_ratio is set to 10% (the default),
+      # writeback will begin when 100 pages have been dirtied.
+      # dirty_ratio specifies the percentage at which processes that are
+      # dirtying pages are made to wait for writeback. If it is set to 20%
+      # (again, the default) on that 1000-page system, a process dirtying pages
+      # will be made to wait once the 200th page is dirtied. This mechanism
+      # will, thus, slow the dirtying of pages while the system catches up.
+      # dirty_background_bytes works like dirty_background_ratio except that the limit is specified as an absolute number of bytes.
+      # dirty_bytes is the equivalent of dirty_ratio except that, once again, it is specified in bytes rather than as a percentage of total memory.
+      "vm.dirty_background_bytes" = 16 * 1024 * 1024;
+      "vm.dirty_bytes" = 48 * 1024 * 1024;
+    };
 
     networking.networkmanager.enable = true;
 
