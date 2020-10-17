@@ -14,7 +14,7 @@ in {
     };
   };
 
-  config = {
+  config = mkIf cfg.enable {
     home.sessionVariables = { EDITOR = "${extra.my_vi}/bin/vim"; };
     home.packages = with pkgs;
       [
