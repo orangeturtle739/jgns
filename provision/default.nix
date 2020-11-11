@@ -22,7 +22,7 @@ let
         graphical-session.enable = true;
       };
       programs.git.enable = true;
-      home.stateVersion = "20.03";
+      home.stateVersion = "20.09";
     };
   }).activationPackage;
 in {

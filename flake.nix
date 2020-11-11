@@ -2,11 +2,11 @@
   description = "jgns";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.03";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.09";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
-      url = "github:rycee/home-manager/bqv-flakes";
+      url = "github:rycee/home-manager/release-20.09";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     jgrestic.url = "github:orangeturtle739/jgrestic";
@@ -55,7 +55,6 @@
               pms = base.callPackage ./packages/pms { };
               source-code-pro-nerdfont =
                 base.callPackage ./packages/source-code-pro-nerdfont { };
-              ymuse = base.callPackage ./packages/ymuse { };
               lain = base.callPackage ./packages/lain { };
               awesome-freedesktop =
                 base.callPackage ./packages/awesome-freedesktop { };

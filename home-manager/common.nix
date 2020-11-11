@@ -1,4 +1,4 @@
-{ unstable, codemod, luafmt, my_vi, pms, solarwolf, ternimal, ymuse, ...
+{ unstable, codemod, luafmt, my_vi, pms, solarwolf, ternimal, ...
 }@extra:
 { config, lib, pkgs, ... }:
 with lib;
@@ -81,7 +81,6 @@ in {
         ternimal
         unstable.cached-nix-shell
         unstable.netris
-        ymuse
       ];
     # programs.home-manager.enable = true;
     programs.firefox.enable = true;
