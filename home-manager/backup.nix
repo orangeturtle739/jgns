@@ -37,6 +37,14 @@ in {
   };
   config = mkIf (cfg != { }) {
     home.packages = [ jgrestic pkgs.restic ];
+    # Put the configuration file in the config dir so the user can easily
+    # run jgrestic ~/.config/jgrestic/...
+    # However, for the systemd unit, use the nix store file so the systemd
+    # unit changes (and is reloaded on activation) when the configuration changes.
+    xdg.configFile = lib.attrsets.mapAttrs' (name: cfg:
+      attrsets.nameValuePair "jgrestic/backup-${cfg.name}.json" {
+        source = (mkConfigFile cfg.backupConfig);
+      }) cfg;
     systemd.user = {
       services = lib.attrsets.mapAttrs' (name: cfg:
         attrsets.nameValuePair "backup-${cfg.name}" {

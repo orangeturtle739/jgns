@@ -208,11 +208,11 @@
         "unicmake": "unicmake"
       },
       "locked": {
-        "lastModified": 1602446298,
-        "narHash": "sha256-tW8G719pYF/Y0XZIcYEz4kJ58qinuSdkyfck9jbrBGE=",
+        "lastModified": 1606874811,
+        "narHash": "sha256-igGAzkfRvwNCEiv9mxYdMYUCL0wLq7trHw1TmA6/rZA=",
         "owner": "orangeturtle739",
         "repo": "jgrestic",
-        "rev": "6f33a417da501546b4f0466be4f36299b3fff69b",
+        "rev": "b266be79fa044804ebd33f8884be335ec0497f86",
         "type": "github"
       },
       "original": {

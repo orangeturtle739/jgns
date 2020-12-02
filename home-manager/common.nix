@@ -1,5 +1,4 @@
-{ unstable, codemod, luafmt, my_vi, pms, solarwolf, ternimal, ...
-}@extra:
+{ unstable, codemod, luafmt, my_vi, pms, solarwolf, ternimal, ... }@extra:
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.jgns.common;
@@ -103,10 +102,6 @@ in {
       enable = true;
       userDirs.enable = true;
     };
-
-    xdg.configFile."jgns/config.toml".text = ''
-      nixos_dir = "~/system-config/nixos"
-    '';
   };
 }
 
