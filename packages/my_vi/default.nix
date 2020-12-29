@@ -12,6 +12,17 @@ let
     };
     dependencies = [ ];
   };
+  tabline = vimUtils.buildVimPluginFrom2Nix {
+    name = "tabline";
+    version = "1.0.0";
+    src = fetchFromGitHub {
+      owner = "mkitt";
+      repo = "tabline.vim";
+      rev = "69c9698a3240860adaba93615f44778a9ab724b4";
+      sha256 = "51b8PxyKqBdeIvmmZyF2hpMBjkyrlZDdTB1opr5JZ7Y=";
+    };
+    dependencies = [ ];
+  };
   vim = vim_configurable.customize {
     name = "vim";
     vimrcConfig = {
@@ -75,6 +86,7 @@ let
           vim-json
           vim-better-whitespace
           vim-monokai-pro
+          tabline
         ];
       };
     };
