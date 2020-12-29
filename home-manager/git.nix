@@ -18,6 +18,7 @@ in {
       aliases = { st = "status -sb"; };
       extraConfig = {
         push = { default = "current"; };
+        pull = { ff = "only"; };
         # The pager is used for git diff output, so use side-by-side for that.
         # The interactive diffFilter is used for things like git add -p,
         # so it can't be side by side otherwise it won't work:
