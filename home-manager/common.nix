@@ -22,6 +22,7 @@ in {
         arc-icon-theme
         ark
         asciinema
+        bat
         bitwarden-cli
         breeze-icons
         calibre
@@ -30,6 +31,7 @@ in {
         cura
         digikam
         dolphin
+        exa
         file
         gcc
         gnumake
