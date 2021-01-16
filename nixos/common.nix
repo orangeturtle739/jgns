@@ -48,7 +48,7 @@ in {
       extraOptions = "experimental-features = nix-command flakes recursive-nix";
     };
 
-    boot.kernelPackages = pkgs.linuxPackages_latest;
+    # boot.kernelPackages = pkgs.linuxPackages_latest;
     boot.kernel.sysctl = {
       # https://unix.stackexchange.com/questions/107703/why-is-my-pc-freezing-while-im-copying-a-file-to-a-pendrive/107722#107722
       # https://lwn.net/Articles/572911/
