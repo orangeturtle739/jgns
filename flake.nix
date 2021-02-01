@@ -93,6 +93,7 @@
                 ./nixos/trackpad.nix
                 ./nixos/laptop-power.nix
                 ./nixos/duckdns.nix
+                ./nixos/tailscale-beta.nix
               ];
             };
             provision = mkIf (!isAarch32) {
