@@ -73,6 +73,7 @@ in {
         xorg.xeyes
         xorg.xwininfo
         yubikey-manager
+        zip
       ] ++ [
         codemod
         luafmt
