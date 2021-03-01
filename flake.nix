@@ -60,6 +60,7 @@
                 base.callPackage ./packages/awesome-freedesktop { };
               awesome-wm-widgets =
                 base.callPackage ./packages/awesome-wm-widgets { };
+              splatmoji = base.callPackage ./packages/splatmoji { };
             } // (mkIf (!isAarch32) {
               jgrestic = jgrestic.defaultPackage.${system};
               jgsysutil = jgsysutil.defaultPackage.${system};
