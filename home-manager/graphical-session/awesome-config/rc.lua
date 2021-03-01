@@ -582,6 +582,14 @@ globalkeys = gears.table.join(
   ),
   awful.key(
     {modkey},
+    "e",
+    function()
+      os.execute("splatmoji type")
+    end,
+    {description = "type emoji", group = "launcher"}
+  ),
+  awful.key(
+    {modkey},
     "x",
     function()
       awful.prompt.run {

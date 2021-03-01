@@ -1,4 +1,4 @@
-{ lain, awesome-freedesktop, awesome-wm-widgets, ... }:
+{ lain, awesome-freedesktop, awesome-wm-widgets, splatmoji, ... }:
 { config, lib, pkgs, ... }:
 with lib;
 let
@@ -90,7 +90,6 @@ in {
     };
 
     xdg.configFile.awesome.source = ./awesome-config;
-    home.packages = with pkgs; [ fira fira-mono ];
-
+    home.packages = with pkgs; [ fira fira-mono splatmoji ];
   };
 }
