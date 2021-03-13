@@ -37,6 +37,9 @@ in {
           syntax-theme = "Monokai Extended";
           line-numbers = true;
         };
+        # Shows 3 things for a merge conflict: both sides and the common ancestor!
+        # This makes merge conflcits much nicer.
+        merge.conflictstyle = "diff3";
       };
     };
 
