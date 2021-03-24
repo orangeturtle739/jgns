@@ -22,6 +22,7 @@ in {
         arc-icon-theme
         ark
         asciinema
+        bandwhich
         bat
         bitwarden-cli
         breeze-icons
@@ -32,9 +33,11 @@ in {
         digikam
         dolphin
         exa
+        fd
         file
         gcc
         gnumake
+        hyperfine
         kate
         killall
         libreoffice-fresh
@@ -55,6 +58,7 @@ in {
         pv
         pypi2nix
         ripgrep
+        sd
         signal-desktop
         simplescreenrecorder
         sl
