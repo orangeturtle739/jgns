@@ -83,6 +83,7 @@
                 ./home-manager/chromium.nix
                 ./home-manager/graphical-session
                 ./home-manager/common.nix
+                ./home-manager/base.nix
                 ./home-manager/ssh-tunnel.nix
                 ./home-manager/udiskie.nix
               ] ++ (mkIf (!isAarch32) [ ./home-manager/backup.nix ]));

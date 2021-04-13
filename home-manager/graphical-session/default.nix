@@ -90,6 +90,17 @@ in {
     };
 
     xdg.configFile.awesome.source = ./awesome-config;
-    home.packages = with pkgs; [ fira fira-mono splatmoji ];
+    home.packages = with pkgs; [
+      xorg.xeyes
+      xorg.xwininfo
+      lxappearance
+      lxrandr
+      lua
+      breeze-icons
+      arc-icon-theme
+      fira
+      fira-mono
+      splatmoji
+    ];
   };
 }
