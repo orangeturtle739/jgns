@@ -2,7 +2,9 @@
   description = "jgns";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.09";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.09";
+    # nixpkgs.url = "/home/jacob/git/nixpkgs";
+    nixpkgs.url = "github:orangeturtle739/nixpkgs/nixos-20.09";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
