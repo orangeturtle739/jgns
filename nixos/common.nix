@@ -81,6 +81,7 @@ in {
       file
       git
       mkpasswd
+      smartmontools
       python3
       tmux
       tree
