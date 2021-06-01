@@ -1,17 +1,6 @@
-{ stdenv, vimUtils, fetchFromGitHub, ripgrep, vim_configurable, vimPlugins
-, runtimeShell }:
+{ stdenv, vimUtils, fetchFromGitHub, ripgrep, bat, git, findutils, ncurses
+, coreutils, vim_configurable, vimPlugins, bash, makeWrapper }:
 let
-  vim-ripgrep = vimUtils.buildVimPluginFrom2Nix {
-    name = "vim-ripgrep";
-    version = "1.0.2";
-    src = fetchFromGitHub {
-      owner = "jremmen";
-      repo = "vim-ripgrep";
-      rev = "ec87af6b69387abb3c4449ce8c4040d2d00d745e";
-      sha256 = "1by56rflr0bmnjvcvaa9r228zyrmxwfkzkclxvdfscm7l7n7jnmh";
-    };
-    dependencies = [ ];
-  };
   tabline = vimUtils.buildVimPluginFrom2Nix {
     name = "tabline";
     version = "1.0.0";
@@ -35,13 +24,6 @@ let
         let g:strip_whitespace_on_save=1
         let g:strip_whitespace_confirm=0
 
-        set wildignore=*.class,*.o,
-        let g:ctrlp_working_path_mode = 0
-        let g:ctrlp_extensions = ['line']
-        let g:rg_binary = '${ripgrep}/bin/rg'
-        let g:ctrlp_user_command = '${ripgrep}/bin/rg %s --files --color=never --glob ""'
-        let g:ctrlp_use_caching = 0
-
         set hlsearch
         syntax on
         nmap <C-n> :nohlsearch<CR>
@@ -59,8 +41,8 @@ let
         nnoremap <C-o> :Make format<CR>
         nnoremap <C-d> :sh<CR>
         nnoremap <C-e> :checkt<CR>
-        nnoremap <C-a> :CtrlPClearAllCaches<CR>
         nnoremap <C-f> :Rg<Space>
+        nnoremap <C-p> :Files<CR>
 
         set expandtab
         set tabstop=4
@@ -76,12 +58,11 @@ let
       packages.myVimPackage = with vimPlugins; {
         start = [
           fugitive
-          ctrlp
+          fzf-vim
           vim-polyglot
           vim-dispatch
           vim-airline
           vim-eunuch
-          vim-ripgrep
           auto-pairs
           vim-json
           vim-better-whitespace
@@ -91,20 +72,16 @@ let
       };
     };
   };
+  path =
+    stdenv.lib.makeBinPath [ ripgrep bat git findutils coreutils ncurses bash ];
 in stdenv.mkDerivation {
   name = "vi-symlink";
   phases = "installPhase";
+  nativeBuildInputs = [ makeWrapper ];
   installPhase = ''
-    mkdir -p $out/bin
-    cd $out/bin
-    mk_wrapper() {
-      echo "#!${runtimeShell}" > $1
-      echo "exec ${vim}/bin/vim $2 \"\$@\"" >> $1
-      chmod +x $1
-    }
-    mk_wrapper vim
-    mk_wrapper vi
-    mk_wrapper view -R
-    mk_wrapper vimdiff -d
+    makeWrapper ${vim}/bin/vim $out/bin/vim --set PATH ${path}
+    makeWrapper ${vim}/bin/vim $out/bin/vi --set PATH ${path}
+    makeWrapper ${vim}/bin/vim $out/bin/view --set PATH ${path} --add-flags -R
+    makeWrapper ${vim}/bin/vim $out/bin/vimdiff --set PATH ${path} --add-flags -d
   '';
 }
