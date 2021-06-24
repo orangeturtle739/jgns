@@ -43,6 +43,17 @@ in {
       };
     };
 
+    programs.bash.initExtra = let
+      forgit = pkgs.fetchFromGitHub {
+        owner = "wfxr";
+        repo = "forgit";
+        rev = "9699eec955d163c60847d7b6ac108eda0518dd50";
+        sha256 = "KFd21uWeur2AEWCJ9w4/ZdHHa2CNmdrMxk0plY+YKcU=";
+      };
+    in ''
+      source ${forgit}/forgit.plugin.sh
+    '';
+    home.packages = [ pkgs.fzf ];
     assertions = [{
       assertion = config.programs.git.enable;
       message = "programs.git.enable must be true to use the jgns config";
