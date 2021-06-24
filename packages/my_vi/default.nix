@@ -1,4 +1,4 @@
-{ stdenv, vimUtils, fetchFromGitHub, ripgrep, bat, git, findutils, ncurses
+{ stdenv, vimUtils, fetchFromGitHub, ripgrep, bat, git, findutils, ncurses, file
 , coreutils, vim_configurable, vimPlugins, bash, makeWrapper }:
 let
   tabline = vimUtils.buildVimPluginFrom2Nix {
@@ -39,7 +39,7 @@ let
         nnoremap <C-i> :Make<CR>
         nnoremap <C-y> :Make clean<CR>
         nnoremap <C-o> :Make format<CR>
-        nnoremap <C-d> :sh<CR>
+        nnoremap <C-d> :sus<CR>
         nnoremap <C-e> :checkt<CR>
         nnoremap <C-f> :Rg<Space>
         nnoremap <C-p> :Files<CR>
@@ -72,8 +72,16 @@ let
       };
     };
   };
-  path =
-    stdenv.lib.makeBinPath [ ripgrep bat git findutils coreutils ncurses bash ];
+  path = stdenv.lib.makeBinPath [
+    ripgrep
+    bat
+    git
+    findutils
+    coreutils
+    ncurses
+    bash
+    file
+  ];
 in stdenv.mkDerivation {
   name = "vi-symlink";
   phases = "installPhase";
