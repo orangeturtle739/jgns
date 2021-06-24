@@ -53,8 +53,8 @@ in {
     in ''
       # Fix the width of delta inside FZF
       # https://github.com/wfxr/forgit/issues/121#issuecomment-725358145
-      export FORGIT_DIFF_PAGER='${unstable.gitAndTools.delta} --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
-      export FORGIT_SHOW_PAGER='${unstable.gitAndTools.delta} --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+      export FORGIT_DIFF_PAGER='${unstable.gitAndTools.delta}/bin/delta --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+      export FORGIT_SHOW_PAGER='${unstable.gitAndTools.delta}/bin/delta --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
       source ${forgit}/forgit.plugin.sh
     '';
     home.packages = [ pkgs.fzf unstable.gitAndTools.delta ];
