@@ -51,6 +51,10 @@ in {
         sha256 = "KFd21uWeur2AEWCJ9w4/ZdHHa2CNmdrMxk0plY+YKcU=";
       };
     in ''
+      # Fix the width of delta inside FZF
+      # https://github.com/wfxr/forgit/issues/121#issuecomment-725358145
+      export FORGIT_DIFF_PAGER='delta --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+      export FORGIT_SHOW_PAGER='delta --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
       source ${forgit}/forgit.plugin.sh
     '';
     home.packages = [ pkgs.fzf ];
