@@ -1,5 +1,5 @@
-{ stdenv, vimUtils, fetchFromGitHub, ripgrep, bat, git, findutils, ncurses, file
-, coreutils, vim_configurable, vimPlugins, bash, makeWrapper }:
+{ stdenv, vimUtils, fetchFromGitHub, ripgrep, fd, bat, git, findutils, ncurses
+, file, coreutils, vim_configurable, vimPlugins, bash, makeWrapper }:
 let
   tabline = vimUtils.buildVimPluginFrom2Nix {
     name = "tabline";
@@ -74,6 +74,7 @@ let
   };
   path = stdenv.lib.makeBinPath [
     ripgrep
+    fd
     bat
     git
     findutils
@@ -87,9 +88,10 @@ in stdenv.mkDerivation {
   phases = "installPhase";
   nativeBuildInputs = [ makeWrapper ];
   installPhase = ''
-    makeWrapper ${vim}/bin/vim $out/bin/vim --set PATH ${path}
-    makeWrapper ${vim}/bin/vim $out/bin/vi --set PATH ${path}
-    makeWrapper ${vim}/bin/vim $out/bin/view --set PATH ${path} --add-flags -R
-    makeWrapper ${vim}/bin/vim $out/bin/vimdiff --set PATH ${path} --add-flags -d
+    FZF_ENV=( --set FZF_DEFAULT_COMMAND "${fd}/bin/fd --type f" )
+    makeWrapper ${vim}/bin/vim $out/bin/vim --set PATH ${path} "''${FZF_ENV[@]}"
+    makeWrapper ${vim}/bin/vim $out/bin/vi --set PATH ${path} "''${FZF_ENV[@]}"
+    makeWrapper ${vim}/bin/vim $out/bin/view --set PATH ${path} --add-flags -R "''${FZF_ENV[@]}"
+    makeWrapper ${vim}/bin/vim $out/bin/vimdiff --set PATH ${path} --add-flags -d "''${FZF_ENV[@]}"
   '';
 }
