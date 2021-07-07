@@ -16,6 +16,9 @@ in {
     programs.bash = {
       enable = true;
       historyControl = [ "erasedups" "ignoredups" ];
+      initExtra = ''
+        bind -x '"\C-g":"fg"'
+      '';
     };
   };
 }
