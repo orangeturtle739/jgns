@@ -153,7 +153,7 @@ in {
     hardware.bluetooth = {
       enable = true;
       package = pkgs.bluezFull;
-      config = {
+      settings = {
         General = {
           ControllerMode = "bredr";
           Enable = "Source,Sink,Media,Socket";

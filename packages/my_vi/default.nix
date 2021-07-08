@@ -1,5 +1,5 @@
-{ stdenv, vimUtils, fetchFromGitHub, ripgrep, fd, bat, git, findutils, ncurses
-, file, coreutils, vim_configurable, vimPlugins, bash, makeWrapper }:
+{ stdenv, lib, vimUtils, fetchFromGitHub, ripgrep, fd, bat, git, findutils
+, ncurses, file, coreutils, vim_configurable, vimPlugins, bash, makeWrapper }:
 let
   tabline = vimUtils.buildVimPluginFrom2Nix {
     name = "tabline";
@@ -72,7 +72,7 @@ let
       };
     };
   };
-  path = stdenv.lib.makeBinPath [
+  path = lib.makeBinPath [
     ripgrep
     fd
     bat

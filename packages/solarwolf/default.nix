@@ -1,13 +1,5 @@
 { python3Packages, libmikmod, fetchFromGitHub }:
-
-let
-  patched_pygame = python3Packages.pygame.override (pygameOld: {
-    SDL_mixer = pygameOld.SDL_mixer.overrideAttrs (old: {
-      buildInputs = old.buildInputs ++ [ libmikmod ];
-      configureFlags = old.configureFlags ++ [ "--disable-music-mod-shared" ];
-    });
-  });
-in python3Packages.buildPythonApplication rec {
+python3Packages.buildPythonApplication rec {
   pname = "solarwolf";
   version = "7d09103f10d6b00f5ac71dcffdd66b90ce74def1";
   src = fetchFromGitHub {
@@ -17,6 +9,6 @@ in python3Packages.buildPythonApplication rec {
     sha256 = "104c514nvh46kh8jrjqyz4knk3xpxq01wg4c5xl3hvxa95dyl3vx";
   };
   dontUseSetuptoolsCheck = true;
-  propagatedBuildInputs = [ python3Packages.pytest patched_pygame ];
+  propagatedBuildInputs = with python3Packages; [ pytest pygame ];
 }
 

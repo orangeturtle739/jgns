@@ -15,8 +15,10 @@ in {
   config = mkIf cfg.enable {
     programs.htop = {
       enable = true;
-      hideUserlandThreads = true;
-      treeView = true;
+      settings = {
+        hide_userland_threads = true;
+        tree_view = true;
+      };
     };
   };
 }

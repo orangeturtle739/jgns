@@ -76,11 +76,11 @@
     },
     "flake-utils_2": {
       "locked": {
-        "lastModified": 1620759905,
-        "narHash": "sha256-WiyWawrgmyN0EdmiHyG2V+fqReiVi8bM9cRdMaKQOFg=",
+        "lastModified": 1623875721,
+        "narHash": "sha256-A8BU7bjS5GirpAUv4QA+QnJ4CceLHkcXdRp4xITDB0s=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "b543720b25df6ffdfcf9227afafc5b8c1fabfae8",
+        "rev": "f7e004a55b120c02ecb6219596820fcd32ca8772",
         "type": "github"
       },
       "original": {
@@ -186,16 +186,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1617824794,
-        "narHash": "sha256-UGkvzx0nIXHhNq/KwJLjXvKAQRE2V33MuX+UirvqrkQ=",
+        "lastModified": 1624228557,
+        "narHash": "sha256-wwOqe73BsrXfRv1PhyXQFNC8iTET50KvE/HitdkRgxs=",
         "owner": "rycee",
         "repo": "home-manager",
-        "rev": "2aa20ae969f2597c4df10a094440a66e9d7f8c86",
+        "rev": "35a24648d155843a4d162de98c17b1afd5db51e4",
         "type": "github"
       },
       "original": {
         "owner": "rycee",
-        "ref": "release-20.09",
+        "ref": "release-21.05",
         "repo": "home-manager",
         "type": "github"
       }
@@ -262,11 +262,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1621728353,
-        "narHash": "sha256-cgRKslcI/lG5wnxgt1z6OGm+JnzmBqyR8m/JzpUNpYQ=",
+        "lastModified": 1625533413,
+        "narHash": "sha256-D4Dp2qDmY3Y9/Mqxsha/18F0RsH3hPiHafG4bvTz2V4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "900115a4f7fdd9189e7803ca781a65be663f2c89",
+        "rev": "036dc0c709650e0c833822307af801f576d67273",
         "type": "github"
       },
       "original": {
@@ -342,16 +342,16 @@
     },
     "nixpkgs_6": {
       "locked": {
-        "lastModified": 1622248384,
-        "narHash": "sha256-6bAR//f84zGlTR/P4XPmpHk+S+nw3c7Lp4qWNh3KgWU=",
-        "owner": "orangeturtle739",
+        "lastModified": 1625692408,
+        "narHash": "sha256-e9L3TLLDVIJpMnHtiNHJE62oOh6emRtSZ244bgYJUZs=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0d83c9e764c8e9d4be5fdeb581c1a233d1334ea2",
+        "rev": "c06613c25df3fe1dd26243847a3c105cf6770627",
         "type": "github"
       },
       "original": {
-        "owner": "orangeturtle739",
-        "ref": "nixos-20.09",
+        "owner": "NixOS",
+        "ref": "nixos-21.05",
         "repo": "nixpkgs",
         "type": "github"
       }

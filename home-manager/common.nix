@@ -30,7 +30,6 @@ in {
         mpc_cli
         okular
         openscad
-        pypi2nix
         signal-desktop
         texlive.combined.scheme-full
         udiskie

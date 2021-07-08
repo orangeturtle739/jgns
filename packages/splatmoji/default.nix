@@ -1,4 +1,5 @@
-{ stdenv, fetchFromGitHub, makeWrapper, rofi, xdotool, xsel, jq, coreutils }:
+{ stdenv, fetchFromGitHub, makeWrapper, rofi, xdotool, xsel, jq, coreutils, lib
+}:
 stdenv.mkDerivation rec {
   pname = "splatmoji";
   version = "1.2.0";
@@ -16,7 +17,7 @@ stdenv.mkDerivation rec {
     mkdir -p $out/bin/
     cp -a data importers lib splatmoji* $out/bin
     wrapProgram $out/bin/splatmoji --set PATH ${
-      stdenv.lib.makeBinPath [ rofi xdotool xsel jq coreutils ]
+      lib.makeBinPath [ rofi xdotool xsel jq coreutils ]
     }
   '';
 }
