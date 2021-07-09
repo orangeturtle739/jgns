@@ -1,4 +1,4 @@
-{ unstable, codemod, luafmt, my_vi, pms, solarwolf, ternimal, ... }@extra:
+{ unstable, luafmt, my_vi, pms, solarwolf, ternimal, ... }@extra:
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.jgns.base;
@@ -49,7 +49,7 @@ in {
         unzip
         wget
         zip
-      ] ++ [ codemod my_vi unstable.netris ];
+      ] ++ [ fastmod my_vi unstable.netris ];
     # programs.home-manager.enable = true;
     programs.firefox.enable = true;
     programs.command-not-found.enable = true;
