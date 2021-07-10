@@ -18,10 +18,12 @@ in {
   config = mkIf cfg.enable {
     services.xserver.libinput = {
       enable = true;
-      tapping = false;
-      # Enables two finger right click
-      # https://wayland.freedesktop.org/libinput/doc/latest/configuration.html#click-method
-      clickMethod = "clickfinger";
+      touchpad = {
+        tapping = false;
+        # Enables two finger right click
+        # https://wayland.freedesktop.org/libinput/doc/latest/configuration.html#click-method
+        clickMethod = "clickfinger";
+      };
     };
   };
 }
