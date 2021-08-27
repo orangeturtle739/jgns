@@ -19,6 +19,7 @@ in {
       extraConfig = {
         push = { default = "current"; };
         pull = { ff = "only"; };
+        init = { defaultBranch = "master"; };
         # The pager is used for git diff output, so use side-by-side for that.
         # The interactive diffFilter is used for things like git add -p,
         # so it can't be side by side otherwise it won't work:
