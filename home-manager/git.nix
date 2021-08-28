@@ -46,10 +46,10 @@ in {
 
     programs.bash.initExtra = let
       forgit = pkgs.fetchFromGitHub {
-        owner = "wfxr";
+        owner = "orangeturtle739";
         repo = "forgit";
-        rev = "9699eec955d163c60847d7b6ac108eda0518dd50";
-        sha256 = "KFd21uWeur2AEWCJ9w4/ZdHHa2CNmdrMxk0plY+YKcU=";
+        rev = "2a183c5a5639e6caf4bb6904b7d65808d4454b77";
+        sha256 = "RG/2SXGw1WPv9FHaQbaIjj89MvOUwX58QkhO3VpIhHc=";
       };
     in ''
       # Fix the width of delta inside FZF
