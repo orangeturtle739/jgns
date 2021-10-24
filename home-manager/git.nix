@@ -41,6 +41,11 @@ in {
         # Shows 3 things for a merge conflict: both sides and the common ancestor!
         # This makes merge conflcits much nicer.
         merge.conflictstyle = "diff3";
+        # Make git try harder to resolve renames; this reduces conflicts during
+        # cherry-pick/rebase/merge operations easier.
+        # Note that merge.renameLimit defaults to the value of
+        # diff.renameLimit.
+        diff.renameLimit = 10000;
       };
     };
 
