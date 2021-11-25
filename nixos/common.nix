@@ -223,6 +223,9 @@ in {
         };
         wantedBy = [ "sleep.target" ];
       };
+
+      # Sometimes the x server starts slowly so increase the number of retries
+      services.display-manager.startLimitBurst = lib.mkForce 10;
     };
 
     virtualisation.virtualbox.host = {
