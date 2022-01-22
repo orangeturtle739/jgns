@@ -12,7 +12,7 @@ let
         '';
       };
       backupTime = mkOption {
-        type = types.str;
+        type = types.nullOr types.str;
         default = "*-*-* 02:00:00";
         description = ''
           systemd OnCalendar timespec for when to run the backup service.
@@ -45,7 +45,10 @@ in {
       attrsets.nameValuePair "jgrestic/backup-${cfg.name}.json" {
         source = (mkConfigFile cfg.backupConfig);
       }) cfg;
-    systemd.user = {
+    systemd.user = let
+      activeBackups =
+        lib.attrsets.filterAttrs (name: cfg: cfg.backupTime != null) cfg;
+    in {
       services = lib.attrsets.mapAttrs' (name: cfg:
         attrsets.nameValuePair "backup-${cfg.name}" {
           Unit = { Description = "Backup service ${cfg.name}"; };
@@ -55,13 +58,13 @@ in {
                 mkConfigFile cfg.backupConfig
               }";
           };
-        }) cfg;
+        }) activeBackups;
       timers = lib.attrsets.mapAttrs' (name: cfg:
         attrsets.nameValuePair "backup-${cfg.name}" {
           Unit = { PartOf = [ "backup-${cfg.name}.service" ]; };
           Timer = { OnCalendar = cfg.backupTime; };
           Install = { WantedBy = [ "timers.target" ]; };
-        }) cfg;
+        }) activeBackups;
     };
   };
 }
