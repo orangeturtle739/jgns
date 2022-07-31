@@ -6,23 +6,23 @@ let
     system = pkgs.stdenv.hostPlatform.system;
     username = "nixos";
     homeDirectory = "/home/nixos";
+    stateVersion = "22.05";
     configuration = { config, pkgs, ... }: {
       imports = [ jgnsHome ];
       jgns = {
-        common.enable = true;
+        # common.enable = true;
         git.enable = true;
-        gpg-ssh.enable = true;
+        # gpg-ssh.enable = true;
         htop.enable = true;
         bash.enable = true;
         starship.enable = true;
-        lorri.enable = true;
+        # lorri.enable = true;
         tmux.enable = true;
-        konsole.enable = true;
-        chromium.enable = true;
-        graphical-session.enable = true;
+        # konsole.enable = true;
+        # chromium.enable = true;
+        # graphical-session.enable = true;
       };
       programs.git.enable = true;
-      home.stateVersion = "20.09";
     };
   }).activationPackage;
 in {
@@ -35,6 +35,8 @@ in {
     "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
     "${nixpkgs}/nixos/modules/installer/tools/tools.nix"
   ];
+
+  system.stateVersion = "22.05";
 
   environment.systemPackages = with pkgs; [
     file
@@ -55,8 +57,8 @@ in {
   # virtualisation.virtualbox.guest.enable = builtins.trace pkgs.stdenv.hostPlatform.system false;
 
   jgns = {
-    common.enable = true;
-    trackpad.enable = true;
+    # common.enable = true;
+    # trackpad.enable = true;
   };
 
   boot.blacklistedKernelModules = [ "nouveau" ];

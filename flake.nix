@@ -2,16 +2,18 @@
   description = "jgns";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
     # nixpkgs.url = "/home/jacob/git/nixpkgs";
-    # nixpkgs.url = "github:orangeturtle739/nixpkgs/nixos-20.09";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
-      url = "github:rycee/home-manager/release-21.11";
+      url = "github:rycee/home-manager/release-22.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    jgrestic.url = "github:orangeturtle739/jgrestic";
+    jgrestic = {
+      url = "github:orangeturtle739/jgrestic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     jgsysutil = {
       url = "github:orangeturtle739/jgsysutil";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -97,7 +99,7 @@
                 ./nixos/trackpad.nix
                 ./nixos/laptop-power.nix
                 ./nixos/duckdns.nix
-                ./nixos/tailscale-beta.nix
+                ./nixos/tailscale.nix
               ];
             };
             provision = mkIf (!isAarch32) {

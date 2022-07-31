@@ -2,3 +2,5 @@
 **/passwords.nix
 *.netrwhist
 result
+.direnv
+docs

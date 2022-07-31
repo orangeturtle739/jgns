@@ -30,7 +30,7 @@ in {
         kate
         killall
         lsof
-        ncat
+        nmap
         ncdu
         nix-index
         nix-prefetch-git

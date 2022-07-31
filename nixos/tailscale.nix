@@ -3,9 +3,9 @@
 
 with lib;
 
-let cfg = config.jgns.tailscaleBeta;
+let cfg = config.jgns.tailscale;
 in {
-  options.jgns.tailscaleBeta = {
+  options.jgns.tailscale = {
     enable = mkOption {
       type = types.bool;
       default = false;
@@ -16,11 +16,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.config = {
-      packageOverrides = super:
-        let self = super.pkgs;
-        in { tailscale = unstable.tailscale; };
-    };
+    services.tailscale.enable = true;
+    networking.firewall.checkReversePath = "loose";
   };
 }
 

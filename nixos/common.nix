@@ -191,7 +191,6 @@ in {
       extraConfig = ''
         load-module module-switch-on-connect
       '';
-      extraModules = [ pkgs.pulseaudio-modules-bt ];
     };
 
     services.xserver = {
