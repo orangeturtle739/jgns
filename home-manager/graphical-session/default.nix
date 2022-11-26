@@ -45,10 +45,6 @@ in {
         description = "shutter";
         command = "${pkgs.shutter}/bin/shutter --min_at_startup";
       };
-      services.ckb_next = mkGraphicalService {
-        description = "ckb_next";
-        command = "${pkgs.ckb-next}/bin/ckb-next --background";
-      };
     };
 
     services.blueman-applet.enable = true;

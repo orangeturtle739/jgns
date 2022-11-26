@@ -148,7 +148,6 @@ in {
 
     sound.enable = true;
     hardware.enableRedistributableFirmware = true;
-    hardware.ckb-next.enable = true;
 
     hardware.bluetooth = {
       enable = true;
