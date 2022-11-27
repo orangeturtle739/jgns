@@ -127,29 +127,6 @@ theme.cal = lain.widget.cal({
   },
 })
 
-local mpdicon = wibox.widget.imagebox()
-theme.mpd = lain.widget.mpd({
-  timeout = 0.1,
-  settings = function()
-    if mpd_now.state == "play" or mpd_now.state == "pause" then
-      title = mpd_now.title
-      artist = " " .. mpd_now.artist
-      if mpd_now.state == "play" then
-        mpdicon:set_image(theme.play)
-      else
-        mpdicon:set_image(theme.pause)
-      end
-    else
-      title = ""
-      artist = "none"
-      mpdicon:set_image(theme.stop)
-    end
-    title = markup.fontfg(base_font .. " Bold " .. font_size, blue, title)
-    artist = markup.font(base_font .. " Italic " .. font_size, artist)
-    widget:set_markup(title .. artist)
-  end,
-})
-
 -- Battery
 local arc_symbolic = os.getenv("HOME") .. "/.nix-profile/share/icons/Arc/status/symbolic"
 local bat_group = nil
@@ -252,8 +229,6 @@ function theme.at_screen_connect(s)
     s.mytasklist,
     {
       layout = wibox.layout.fixed.horizontal,
-      mpdicon,
-      theme.mpd.widget,
       systray_group,
       bat_group,
       bar_spr,

@@ -54,7 +54,7 @@ let
         filetype plugin indent on
         autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
         autocmd FileType make setlocal noexpandtab
-                  '';
+      '';
       packages.myVimPackage = with vimPlugins; {
         start = [
           fugitive

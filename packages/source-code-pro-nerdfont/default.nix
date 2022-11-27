@@ -4,12 +4,12 @@
 # Nerd fonts is 2.0 GB, so just download the font we need.
 { stdenv, lib, fetchurl, unzip }:
 stdenv.mkDerivation rec {
-  version = "2.1.0";
+  version = "2.2.2";
   pname = "source-code-pro-nerdfont";
   src = fetchurl {
     url =
       "https://github.com/ryanoasis/nerd-fonts/releases/download/v${version}/SourceCodePro.zip";
-    sha256 = "p3FongvB0CDiCCxwXi+2ETt/j7wcVsY5lX8SVGvTlhk=";
+    sha256 = "pzZEjwTHO97+/DVsAkpdklDsCGoGIchBefxEWHZQxzE=";
   };
   nativeBuildInputs = [ unzip ];
 

@@ -1,4 +1,4 @@
-{ lain, awesome-freedesktop, awesome-wm-widgets, splatmoji, ... }:
+{ lain, awesome-wm-widgets, splatmoji, ... }:
 { config, lib, pkgs, ... }:
 with lib;
 let
@@ -47,6 +47,12 @@ in {
       };
     };
 
+    /* services.picom = {
+       enable = true;
+       backend = "glx";
+       extraArgs = ["--log-level" "DEBUG"];
+       };
+    */
     services.blueman-applet.enable = true;
     services.network-manager-applet.enable = true;
     jgns.udiskie = {
@@ -81,7 +87,7 @@ in {
       enable = true;
       windowManager.awesome = {
         enable = true;
-        luaModules = with pkgs; [ lain awesome-freedesktop awesome-wm-widgets ];
+        luaModules = with pkgs; [ lain awesome-wm-widgets ];
       };
     };
 

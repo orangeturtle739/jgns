@@ -36,7 +36,7 @@ in {
 
       [Scrolling]
       ScrollBarPosition=2
-            '';
+    '';
     xdg.configFile.konsolerc.source = ./konsolerc;
   };
 }

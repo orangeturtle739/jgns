@@ -25,30 +25,13 @@ in {
   config = mkIf cfg.enable {
     nixpkgs.config = {
       allowUnfree = true;
-      packageOverrides = super:
-        let self = super.pkgs;
-        in {
-          cups-filters = super.cups-filters.overrideAttrs (oldAttrs: rec {
-            version = "1.27.5";
-            src = super.fetchurl {
-              url =
-                "https://github.com/OpenPrinting/cups-filters/releases/download/release-1-27-5/cups-filters-1.27.5.tar.gz";
-              sha256 = "1didsqmdh9fs0pmcbcqsr2s2msjcyvf0p5bfmwhfdqhcwlf0ir08";
-            };
-            configureFlags =
-              (lib.lists.remove "--with-test-font-path=/path-does-not-exist"
-                oldAttrs.configureFlags) ++ [
-                  "--with-test-font-path=${self.dejavu_fonts}/share/fonts/truetype/DejaVuSans.ttf"
-                ];
-          });
-        };
+      packageOverrides = super: let self = super.pkgs; in { };
     };
     nix = {
       package = pkgs.nixFlakes;
       extraOptions = "experimental-features = nix-command flakes recursive-nix";
     };
 
-    # boot.kernelPackages = pkgs.linuxPackages_latest;
     boot.kernel.sysctl = {
       # https://unix.stackexchange.com/questions/107703/why-is-my-pc-freezing-while-im-copying-a-file-to-a-pendrive/107722#107722
       # https://lwn.net/Articles/572911/
@@ -110,40 +93,6 @@ in {
       };
     };
     services.udev.packages = [ pkgs.yubikey-personalization ];
-    services.udev.extraRules = ''
-      # Eventually, this will be upstreamed. See:
-      # pkgs/os-specific/linux/zsa-udev-rules/default.ni
-      # https://search.nixos.org/options?channel=unstable&show=hardware.keyboard.zsa.enable&from=0&size=50&sort=relevance&query=zsa
-      # https://github.com/zsa/wally/tree/master/dist/linux64
-
-      # Rule for the Moonlander
-      SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", TAG+="uaccess", TAG+="udev-acl"
-      # Rule for the Ergodox EZ Original / Shine / Glow
-      SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", TAG+="uaccess", TAG+="udev-acl"
-      # Rule for the Planck EZ Standard / Glow
-      SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", TAG+="uaccess", TAG+="udev-acl"
-
-      # Teensy rules for the Ergodox EZ Original / Shine / Glow
-      ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-      KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
-
-      # STM32 rules for the Moonlander and Planck EZ Standard / Glow
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", \
-          MODE:="0666", \
-          SYMLINK+="stm32_dfu"
-
-      # from https://github.com/zsa/wally/wiki/Live-training-on-Linux
-      # Rule for all ZSA keyboards
-      SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
-      # Rule for the Moonlander
-      SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
-      # Rule for the Ergodox EZ
-      SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
-      # Rule for the Planck EZ
-      SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
-              '';
     users.groups.plugdev = { };
 
     sound.enable = true;

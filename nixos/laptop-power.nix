@@ -27,6 +27,8 @@ in {
       enable = true;
       criticalPowerAction = "Hibernate";
     };
+
+    services.tlp.enable = true;
   };
 }
 

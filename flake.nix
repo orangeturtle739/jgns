@@ -60,8 +60,6 @@
               source-code-pro-nerdfont =
                 base.callPackage ./packages/source-code-pro-nerdfont { };
               lain = base.callPackage ./packages/lain { };
-              awesome-freedesktop =
-                base.callPackage ./packages/awesome-freedesktop { };
               awesome-wm-widgets =
                 base.callPackage ./packages/awesome-wm-widgets { };
               splatmoji = base.callPackage ./packages/splatmoji { };
@@ -74,22 +72,25 @@
             mkModule = arg: path: import path arg;
             jgnsHome = { ... }: {
               imports = map (mkModule extra) ([
-                ./home-manager/mpd.nix
+                ./home-manager/alacritty.nix
+                ./home-manager/base.nix
+                ./home-manager/bash.nix
                 ./home-manager/beets.nix
+                ./home-manager/chromium.nix
+                ./home-manager/common.nix
+                ./home-manager/common/cli.nix
                 ./home-manager/git.nix
                 ./home-manager/gpg-ssh.nix
-                ./home-manager/htop.nix
-                ./home-manager/starship.nix
-                ./home-manager/bash.nix
-                ./home-manager/lorri.nix
-                ./home-manager/tmux
-                ./home-manager/konsole
-                ./home-manager/chromium.nix
                 ./home-manager/graphical-session
-                ./home-manager/common.nix
-                ./home-manager/base.nix
+                ./home-manager/htop.nix
+                ./home-manager/konsole
+                ./home-manager/lorri.nix
+                ./home-manager/mpd.nix
                 ./home-manager/ssh-tunnel.nix
+                ./home-manager/starship.nix
+                ./home-manager/tmux
                 ./home-manager/udiskie.nix
+                ./home-manager/vi.nix
               ] ++ (mkIf (!isAarch32) [ ./home-manager/backup.nix ]));
             };
             jgnsNixos = { ... }: {

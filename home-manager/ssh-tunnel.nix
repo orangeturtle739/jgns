@@ -56,7 +56,7 @@ let
       Service = {
         ExecStart = ''
           ${pkgs.openssh}/bin/ssh -v -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -o IdentitiesOnly=yes -i ${cfg.privateSshKey} -nNT ${cfg.portForwardSpec} ${cfg.host}
-                '';
+        '';
         RestartSec = cfg.restartSec;
         Restart = "always";
 

@@ -38,6 +38,7 @@ in {
         unset VIM
       fi
     '';
+    programs.zoxide.enable = true;
     assertions = [{
       assertion = config.programs.bash.enable;
       message =

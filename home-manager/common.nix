@@ -14,7 +14,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    jgns.base.enable = true;
     home.packages = with pkgs;
       [
         ark
@@ -32,13 +31,12 @@ in {
         openscad
         signal-desktop
         texlive.combined.scheme-full
-        udiskie
         unison
         vgo2nix
         vlc
         wally-cli
         yubikey-manager
-      ] ++ [ luafmt solarwolf ternimal unstable.cached-nix-shell ];
+      ] ++ [ luafmt solarwolf ternimal ];
   };
 }
 

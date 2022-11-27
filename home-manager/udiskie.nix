@@ -34,6 +34,7 @@ in {
 
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
+    home.packages = with pkgs; [ udiskie ];
     assertions = [{
       assertion = !config.services.udiskie.enable;
       message = "jgns udiskie conflicts with home-manager udiskie";
