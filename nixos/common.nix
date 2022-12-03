@@ -23,12 +23,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.config = {
-      allowUnfree = true;
-      packageOverrides = super: let self = super.pkgs; in { };
-    };
+    nixpkgs.config = { allowUnfree = true; };
     nix = {
-      package = pkgs.nixFlakes;
       extraOptions = "experimental-features = nix-command flakes recursive-nix";
     };
 

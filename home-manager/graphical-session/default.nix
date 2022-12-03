@@ -47,6 +47,16 @@ in {
       };
     };
 
+    /*
+    wayland.windowManager.hyprland = {
+      enable = true;
+      xwayland = {
+        enable = false;
+        hidpi = false;
+      };
+    };
+    */
+
     /* services.picom = {
        enable = true;
        backend = "glx";

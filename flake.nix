@@ -2,12 +2,12 @@
   description = "jgns";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     # nixpkgs.url = "/home/jacob/git/nixpkgs";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
-      url = "github:rycee/home-manager/release-22.05";
+      url = "github:rycee/home-manager/release-22.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     jgrestic = {
@@ -22,10 +22,14 @@
       url = "github:orangeturtle739/duckdns-update";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, flake-utils
-    , jgrestic, duckdns-update, jgsysutil }:
+    , jgrestic, jgsysutil, duckdns-update, hyprland }:
     let
       mkIf = cond: value:
         if cond then
@@ -71,7 +75,7 @@
             extra = { unstable = base-unstable; } // jgnsPackages;
             mkModule = arg: path: import path arg;
             jgnsHome = { ... }: {
-              imports = map (mkModule extra) ([
+              imports = (map (mkModule extra) ([
                 ./home-manager/alacritty.nix
                 ./home-manager/base.nix
                 ./home-manager/bash.nix
@@ -91,7 +95,8 @@
                 ./home-manager/tmux
                 ./home-manager/udiskie.nix
                 ./home-manager/vi.nix
-              ] ++ (mkIf (!isAarch32) [ ./home-manager/backup.nix ]));
+              ] ++ (mkIf (!isAarch32) [ ./home-manager/backup.nix ])))
+                ++ [ hyprland.homeManagerModules.default ];
             };
             jgnsNixos = { ... }: {
               imports = map (mkModule extra) [

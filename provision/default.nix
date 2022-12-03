@@ -3,27 +3,31 @@
 { config, lib, pkgs, ... }:
 let
   home = (home-manager.lib.homeManagerConfiguration {
-    system = pkgs.stdenv.hostPlatform.system;
-    username = "nixos";
-    homeDirectory = "/home/nixos";
-    stateVersion = "22.05";
-    configuration = { config, pkgs, ... }: {
-      imports = [ jgnsHome ];
-      jgns = {
-        # common.enable = true;
-        git.enable = true;
-        # gpg-ssh.enable = true;
-        htop.enable = true;
-        bash.enable = true;
-        starship.enable = true;
-        # lorri.enable = true;
-        tmux.enable = true;
-        # konsole.enable = true;
-        # chromium.enable = true;
-        # graphical-session.enable = true;
-      };
-      programs.git.enable = true;
-    };
+    pkgs = pkgs;
+    modules = [
+      ({ config, pkgs, ... }: {
+        imports = [ jgnsHome ];
+        jgns = {
+          # common.enable = true;
+          git.enable = true;
+          # gpg-ssh.enable = true;
+          htop.enable = true;
+          bash.enable = true;
+          starship.enable = true;
+          # lorri.enable = true;
+          tmux.enable = true;
+          # konsole.enable = true;
+          # chromium.enable = true;
+          # graphical-session.enable = true;
+        };
+        programs.git.enable = true;
+        home = {
+          username = "nixos";
+          homeDirectory = "/home/nixos";
+          stateVersion = "22.11";
+        };
+      })
+    ];
   }).activationPackage;
 in {
   imports = [
@@ -36,7 +40,7 @@ in {
     "${nixpkgs}/nixos/modules/installer/tools/tools.nix"
   ];
 
-  system.stateVersion = "22.05";
+  system.stateVersion = "22.11";
 
   environment.systemPackages = with pkgs; [
     file

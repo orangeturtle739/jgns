@@ -32,7 +32,6 @@ in {
         signal-desktop
         texlive.combined.scheme-full
         unison
-        vgo2nix
         vlc
         wally-cli
         yubikey-manager
