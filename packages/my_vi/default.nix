@@ -21,6 +21,8 @@ let
         set backspace=indent,eol,start
         colorscheme monokai_pro
 
+        let g:airline_powerline_fonts = 1
+
         let g:strip_whitespace_on_save=1
         let g:strip_whitespace_confirm=0
 
@@ -68,6 +70,8 @@ let
           vim-better-whitespace
           vim-monokai-pro
           tabline
+          yuck-vim
+          parinfer-rust
         ];
       };
     };

@@ -137,40 +137,54 @@ in {
       '';
     };
 
-    services.xserver = {
+    /* services.xserver = {
+         enable = true;
+         layout = "us";
+         displayManager = {
+           lightdm.enable = true;
+           sessionCommands = ''
+             ${pkgs.lightlocker}/bin/light-locker &
+           '';
+         };
+         windowManager.awesome.enable = true;
+         # https://wiki.archlinux.org/index.php/Display_Power_Management_Signaling
+         serverFlagsSection = ''
+           Option "BlankTime" "${toString cfg.idleTimeoutMin}"
+           Option "StandbyTime" "${toString cfg.idleTimeoutMin}"
+           Option "SuspendTime" "${toString cfg.idleTimeoutMin}"
+           Option "OffTime" "${toString cfg.idleTimeoutMin}"
+         '';
+       };
+
+       systemd = {
+         services.lock = {
+           before = [ "sleep.target" ];
+           serviceConfig = {
+             Type = "oneshot";
+             ExecStart = "${pkgs.systemd}/bin/loginctl lock-sessions";
+             ExecStartPost = "${pkgs.coreutils}/bin/sleep 1";
+           };
+           wantedBy = [ "sleep.target" ];
+         };
+
+         # Sometimes the x server starts slowly so increase the number of retries
+         services.display-manager.startLimitBurst = lib.mkForce 10;
+       };
+    */
+
+    hardware.opengl.enable = true;
+    # https://github.com/NixOS/nixpkgs/blob/6e284c8889b3e8a70cbabb5bde478bd2b9e88347/pkgs/applications/window-managers/sway/lock.nix#L31
+    security.pam.services.swaylock = { };
+    services.greetd = {
       enable = true;
-      layout = "us";
-      displayManager = {
-        lightdm.enable = true;
-        sessionCommands = ''
-          ${pkgs.lightlocker}/bin/light-locker &
-        '';
-      };
-      windowManager.awesome.enable = true;
-      # https://wiki.archlinux.org/index.php/Display_Power_Management_Signaling
-      serverFlagsSection = ''
-        Option "BlankTime" "${toString cfg.idleTimeoutMin}"
-        Option "StandbyTime" "${toString cfg.idleTimeoutMin}"
-        Option "SuspendTime" "${toString cfg.idleTimeoutMin}"
-        Option "OffTime" "${toString cfg.idleTimeoutMin}"
-      '';
-    };
-
-    systemd = {
-      services.lock = {
-        before = [ "sleep.target" ];
-        serviceConfig = {
-          Type = "oneshot";
-          ExecStart = "${pkgs.systemd}/bin/loginctl lock-sessions";
-          ExecStartPost = "${pkgs.coreutils}/bin/sleep 1";
+      settings = {
+        default_session = {
+          # command = "${pkgs.greetd.greetd}/bin/agreety --cmd Hyprland";
+          command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd sway";
         };
-        wantedBy = [ "sleep.target" ];
       };
-
-      # Sometimes the x server starts slowly so increase the number of retries
-      services.display-manager.startLimitBurst = lib.mkForce 10;
     };
-
+    programs.wshowkeys.enable = true;
     virtualisation.virtualbox.host = {
       enable = true;
       enableExtensionPack = true;
