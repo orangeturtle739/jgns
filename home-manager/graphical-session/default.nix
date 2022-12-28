@@ -1,21 +1,17 @@
-{ lain, awesome-wm-widgets, splatmoji, ... }:
+{ ... }:
 { config, lib, pkgs, ... }:
 with lib;
 let
   cfg = config.jgns.graphical-session;
-  mkGraphicalService = { description, command }: {
-    Unit = {
-      Description = description;
-      After = [ "graphical-session-pre.target" ];
-      PartOf = [ "graphical-session.target" ];
+  fontSpecOptions = {
+    package = mkOption { type = types.package; };
+    font = mkOption { type = types.str; };
+  };
+  fontSpec = types.submodule { options = fontSpecOptions; };
+  iconFontSpec = types.submodule {
+    options = fontSpecOptions // {
+      i3status-rs-icon-set-name = mkOption { type = types.str; };
     };
-    Service = {
-      Type = "simple";
-      ExecStart = command;
-      RestartSec = 3;
-      Restart = "always";
-    };
-    Install = { WantedBy = [ "graphical-session.target" ]; };
   };
 in {
   options.jgns.graphical-session = {
@@ -24,6 +20,13 @@ in {
       default = false;
       description = ''
         Enable the jgns graphical session.
+      '';
+    };
+    laptop = mkOption {
+      type = types.bool;
+      default = false;
+      description = ''
+        True if this is a laptop and should have a battery widget and screen brightness widget
       '';
     };
     lockTimeout = mkOption {
@@ -37,37 +40,290 @@ in {
       type = types.ints.unsigned;
       default = 10 * 60;
       description = ''
-        Timeout after which to active dpms, in seconds.
+        Timeout after which to activate dpms, in seconds.
       '';
     };
+    fontSize = mkOption {
+      type = types.float;
+      default = 9.0;
+      description = ''
+        Font size for menu bar, notifications, etc
+      '';
+    };
+    bg = mkOption {
+      type = types.path;
+      default = ./cx_sunset.jpg;
+      description = ''
+        Path to background image
+      '';
+    };
+    fonts = mkOption {
+      type = types.submodule {
+        options = builtins.mapAttrs (name:
+          { package, font, type ? fontSpec, extra ? { } }:
+          mkOption {
+            type = type;
+            default = { inherit package font; } // extra;
+            description = "Default ${name} font";
+          }) {
+            sans-serif = {
+              package = pkgs.noto-fonts;
+              font = "Noto Sans";
+            };
+            serif = {
+              package = pkgs.noto-fonts;
+              font = "Noto Serif";
+            };
+            monospace = {
+              package = pkgs.fira-mono;
+              font = "Fira Mono";
+            };
+            emoji = {
+              package = pkgs.noto-fonts-emoji;
+              font = "Noto Color Emoji";
+            };
+            icon = {
+              type = iconFontSpec;
+              package = pkgs.font-awesome;
+              font = "Font Awesome 6 Free";
+              extra = { i3status-rs-icon-set-name = "awesome6"; };
+            };
+          };
+      };
+      default = { };
+      description = "Configuration for fonts";
+    };
+    modifier = mkOption {
+      type = types.str;
+      default = "Mod4";
+      description = "base modifier for window shortcuts";
+    };
+    centerWindowTitle = mkOption {
+      type = types.str;
+      default = "sway_floating_center";
+      description =
+        "title for windows which sway should center and make floating";
+    };
+    openweathermapApiKey = mkOption {
+      type = types.nullOr types.str;
+      default = null;
+      description = "openweathermap API key";
+    };
   };
+
   config = mkIf cfg.enable {
     home.sessionVariables = {
       KDE_SESSION_VERSION = "5";
       KDE_FULL_SESSION = "true";
-    };
-    systemd.user = {
-      services.volctl = mkGraphicalService {
-        description = "volctl";
-        command = "${pkgs.volctl}/bin/volctl";
-      };
-      services.shutter = mkGraphicalService {
-        description = "shutter";
-        command = "${pkgs.shutter}/bin/shutter --min_at_startup";
-      };
+      # make chromium and electron apps work
+      NIXOS_OZONE_WL = "1";
     };
 
-    wayland.windowManager.sway = {
+    # Enable once dbus menus work:
+    # https://github.com/swaywm/sway/pull/6249
+    # services.blueman-applet.enable = true;
+    # services.network-manager-applet.enable = true;
+
+    # https://github.com/NixOS/nixpkgs/issues/16026#issuecomment-224939125
+    xdg.configFile = {
+      "fontconfig/conf.d/30-default-fonts.conf".text = ''
+        <?xml version='1.0'?>
+        <!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+        <fontconfig>
+        	<alias binding="strong">
+        		<family>sans-serif</family>
+        		<prefer>
+        			<family>${cfg.fonts.sans-serif.font}</family>
+        		</prefer>
+        	</alias>
+        	<alias binding="strong">
+        		<family>serif</family>
+        		<prefer>
+        			<family>${cfg.fonts.serif.font}</family>
+        		</prefer>
+        	</alias>
+        	<alias binding="strong">
+        		<family>monospace</family>
+        		<prefer>
+        			<family>${cfg.fonts.monospace.font}</family>
+        		</prefer>
+            </alias>
+
+            <!-- https://gist.github.com/cole-h/8aab0ed9d65efe38496e8e27b96b6a3d -->
+            <!-- Add generic family. -->
+            <match target="pattern">
+                <test qual="any" name="family"><string>emoji</string></test>
+                <edit name="family" mode="assign" binding="same"><string>${cfg.fonts.emoji.font}</string></edit>
+            </match>
+
+            <!-- This adds ${cfg.fonts.emoji.font} as a final fallback font for the default font families. -->
+            <match target="pattern">
+                <test name="family"><string>sans</string></test>
+                <edit name="family" mode="append"><string>${cfg.fonts.emoji.font}</string></edit>
+            </match>
+
+            <match target="pattern">
+                <test name="family"><string>serif</string></test>
+                <edit name="family" mode="append"><string>${cfg.fonts.emoji.font}</string></edit>
+            </match>
+
+            <match target="pattern">
+                <test name="family"><string>sans-serif</string></test>
+                <edit name="family" mode="append"><string>${cfg.fonts.emoji.font}</string></edit>
+            </match>
+
+            <match target="pattern">
+                <test name="family"><string>monospace</string></test>
+                <edit name="family" mode="append"><string>${cfg.fonts.emoji.font}</string></edit>
+            </match>
+        </fontconfig>
+      '';
+    };
+
+    wayland.windowManager.sway =
+      let fontNameList = [ cfg.fonts.monospace.font cfg.fonts.icon.font ];
+      in {
+        enable = true;
+        xwayland = false;
+        config = rec {
+          fonts = {
+            names = fontNameList;
+            size = cfg.fontSize;
+          };
+          terminal = "${pkgs.alacritty}/bin/alacritty";
+          modifier = "Mod4";
+          keybindings = let
+            forAllDigits = f: builtins.listToAttrs (map f (lib.range 0 9));
+            mkSwaysomeBind = { cmd, extra ? "" }:
+              i: {
+                name = "${modifier}+${extra}${builtins.toString i}";
+                value = ''exec "swaysome ${cmd} ${builtins.toString i}"'';
+              };
+            mkSwaysomeBindForAllDigits = arg: forAllDigits (mkSwaysomeBind arg);
+          in lib.mkOptionDefault ({
+            # https://github.com/swaywm/sway/issues/2910#issuecomment-752840549
+            "Control+Mod1+l" = ''exec "sleep 0.5; killall -USR1 swayidle"'';
+            "${modifier}+o" = ''exec "swaysome next_output"'';
+            "${modifier}+Shift+o" = ''exec "swaysome prev_output"'';
+            "${modifier}+q" = ''exec "chromium"'';
+            "${modifier}+Shift+q" = "exit";
+            "${modifier}+Shift+c" = "kill";
+            "${modifier}+p" =
+              ''exec grim -g "$(slurp -d)" - | wl-copy -t image/png'';
+            "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+            "XF86AudioRaiseVolume" =
+              "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
+            "XF86AudioLowerVolume" =
+              "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
+            "XF86MonBrightnessUp" = "exec light -A 10";
+            "XF86MonBrightnessDown" = "exec light -U 10";
+            "XF86AudioMicMute" =
+              "exec pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+          } // (mkSwaysomeBindForAllDigits { cmd = "focus"; })
+            // (mkSwaysomeBindForAllDigits {
+              cmd = "move";
+              extra = "Shift+";
+            }));
+          window.commands = [{
+            command = "floating enable, border pixel";
+            criteria = { title = "^${cfg.centerWindowTitle}$"; };
+          }];
+          seat = { "*" = { hide_cursor = "1000"; }; };
+          startup = [
+            { command = "swaysome init 1"; }
+            { command = "swaybg --image ${cfg.bg}"; }
+          ];
+
+          bars = [{
+            position = "top";
+            fonts = {
+              names = fontNameList;
+              size = cfg.fontSize;
+            };
+            statusCommand = let
+              configFile =
+                config.xdg.configFile."i3status-rust/config-top.toml";
+            in "${pkgs.i3status-rust}/bin/i3status-rs ${configFile.source}";
+            extraConfig = ''
+              icon_theme Adwaita
+            '';
+          }];
+          input = { "type:touchpad" = { click_method = "clickfinger"; }; };
+        };
+      };
+    programs.i3status-rust = {
       enable = true;
-      config = rec {
-        terminal = "${pkgs.alacritty}/bin/alacritty";
-        modifier = "Mod4";
-        keybindings = lib.mkOptionDefault {
-          "Mod1+l" = "${pkgs.systemd}/bin/loginctl lock-sessions";
+      bars = {
+        top = {
+          icons = cfg.fonts.icon.i3status-rs-icon-set-name;
+          theme = "solarized-dark";
+          blocks = [
+            { block = "focused_window"; }
+            { block = "music"; }
+            {
+              block = "networkmanager";
+              on_click = "alacritty --title ${cfg.centerWindowTitle} -e nmtui";
+            }
+            {
+              block = "cpu";
+              format = "{barchart} {utilization}";
+            }
+            { block = "memory"; }
+            { block = "net"; }
+          ] ++ (lists.optional cfg.laptop { block = "battery"; }) ++ [
+            { block = "sound"; }
+            {
+              block = "sound";
+              device = "@DEFAULT_SOURCE@";
+              device_kind = "source";
+              format = "";
+            }
+          ] ++ (lists.optional cfg.laptop { block = "backlight"; })
+            ++ (lists.optional (cfg.openweathermapApiKey != null) {
+              block = "weather";
+              format =
+                "{weather} ({location}) {temp} F, {wind} mph {direction}";
+              autolocate = true;
+              service = {
+                name = "openweathermap";
+                api_key = cfg.openweathermapApiKey;
+                units = "imperial";
+              };
+            }) ++ [{
+              block = "time";
+              interval = 1;
+              format = "%a %d %b %Y %H:%M:%S";
+            }];
         };
       };
     };
-    home.packages = with pkgs; [ swaylock wev ];
+    programs.mako = {
+      enable = true;
+      font = "${cfg.fonts.sans-serif.font} ${builtins.toString cfg.fontSize}";
+    };
+    home.packages = with pkgs; [
+      swaylock
+      wev
+      swaysome
+      i3status-rust
+      cfg.fonts.sans-serif.package
+      cfg.fonts.serif.package
+      cfg.fonts.monospace.package
+      cfg.fonts.emoji.package
+      cfg.fonts.icon.package
+      drm_info
+      wl-clipboard
+      wtype
+      playerctl
+      swaybg
+      shutter
+      grim
+      slurp
+      gnome3.gnome-themes-extra
+      (pkgs.writeShellScriptBin "start_wayland" ''
+        exec systemd-cat --identifier=sway sway $@
+      '')
+    ];
     programs.swaylock.settings = {
       color = "808080";
       font-size = 24;
@@ -110,90 +366,17 @@ in {
         }
       ];
     };
-    wayland.windowManager.hyprland = {
-      enable = false;
-      xwayland = {
-        enable = false;
-        hidpi = false;
-      };
-      extraConfig = ''
-        bind=SUPER,Return,exec,alacritty
-        bind=SUPER + SHIFT,Q,exit
-        bind=SUPER,Q,exec,chromium
-        bind=SUPER,1,workspace,m+1
-        bind=SUPER,2,workspace,m+2
-        bind=SUPER,3,workspace,m+3
-        bind=SUPER,4,workspace,m+4
-        bind=SUPER,5,workspace,m+5
-        bind=SUPER,6,workspace,m+6
-        bind=SUPER,7,workspace,m+7
-        bind=SUPER,8,workspace,m+8
-        bind=SUPER,9,workspace,m+9
-        bind=SUPER + CTRL,1,workspace,m-1
-        bind=SUPER + CTRL,2,workspace,m-2
-        bind=SUPER + CTRL,3,workspace,m-3
-        bind=SUPER + CTRL,4,workspace,m-4
-        bind=SUPER + CTRL,5,workspace,m-5
-        bind=SUPER + CTRL,6,workspace,m-6
-        bind=SUPER + CTRL,7,workspace,m-7
-        bind=SUPER + CTRL,8,workspace,m-8
-        bind=SUPER + CTRL,9,workspace,m-9
-        bind=SUPER + SHIFT,1,movetoworkspacesilent,m+1
-        bind=SUPER + SHIFT,2,movetoworkspacesilent,m+2
-        bind=SUPER + SHIFT,3,movetoworkspacesilent,m+3
-        bind=SUPER + SHIFT,4,movetoworkspacesilent,m+4
-        bind=SUPER + SHIFT,5,movetoworkspacesilent,m+5
-        bind=SUPER + SHIFT,6,movetoworkspacesilent,m+6
-        bind=SUPER + SHIFT,7,movetoworkspacesilent,m+7
-        bind=SUPER + SHIFT,8,movetoworkspacesilent,m+8
-        bind=SUPER + SHIFT,9,movetoworkspacesilent,m+9
-        bind=SUPER + CTRL + SHIFT,1,movetoworkspacesilent,m-1
-        bind=SUPER + CTRL + SHIFT,2,movetoworkspacesilent,m-2
-        bind=SUPER + CTRL + SHIFT,3,movetoworkspacesilent,m-3
-        bind=SUPER + CTRL + SHIFT,4,movetoworkspacesilent,m-4
-        bind=SUPER + CTRL + SHIFT,5,movetoworkspacesilent,m-5
-        bind=SUPER + CTRL + SHIFT,6,movetoworkspacesilent,m-6
-        bind=SUPER + CTRL + SHIFT,7,movetoworkspacesilent,m-7
-        bind=SUPER + CTRL + SHIFT,8,movetoworkspacesilent,m-8
-        bind=SUPER + CTRL + SHIFT,9,movetoworkspacesilent,m-9
-        bind=SUPER,c,workspace,empty
-        bind=SUPER,c,movecurrentworkspacetomonitor,current
-        bind=SUPER + SHIFT,c,workspace,empty
-        bind=SUPER + SHIFT,c,movewoworkspace,current
-        bind=SUPER,h,movefocus,l
-        bind=SUPER,j,movefocus,d
-        bind=SUPER,k,movefocus,u
-        bind=SUPER,l,movefocus,r
-        bind=SUPER + SHIFT,h,movewindow,l
-        bind=SUPER + SHIFT,j,movewindow,d
-        bind=SUPER + SHIFT,k,movewindow,u
-        bind=SUPER + SHIFT,l,movewindow,r
-        bind=SUPER + CTRL,h,focusmonitor,l
-        bind=SUPER + CTRL,j,focusmonitor,d
-        bind=SUPER + CTRL,k,focusmonitor,u
-        bind=SUPER + CTRL,l,focusmonitor,r
-        bind=SUPER + CTRL,w,killactive
-      '';
-    };
-    programs.eww = {
-      enable = true;
-      package = pkgs.eww-wayland;
-      configDir = ./eww-config;
-    };
 
-    services.blueman-applet.enable = true;
-    services.network-manager-applet.enable = true;
     jgns.udiskie = {
       enable = true;
       config = {
         program_options = {
-          tray = true;
+          tray = false;
           notify = true;
           automount = true;
         };
       };
     };
-    services.unclutter.enable = true;
 
     gtk = {
       enable = true;
@@ -210,28 +393,5 @@ in {
         name = "Numix";
       };
     };
-
-    /* xsession = {
-         enable = true;
-         windowManager.awesome = {
-           enable = true;
-           luaModules = with pkgs; [ lain awesome-wm-widgets ];
-         };
-       };
-
-       xdg.configFile.awesome.source = ./awesome-config;
-       home.packages = with pkgs; [
-         xorg.xeyes
-         xorg.xwininfo
-         lxappearance
-         lxrandr
-         lua
-         breeze-icons
-         arc-icon-theme
-         fira
-         fira-mono
-         splatmoji
-         ];
-    */
   };
 }

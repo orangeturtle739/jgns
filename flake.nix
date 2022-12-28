@@ -59,14 +59,11 @@
               ternimal = base.callPackage ./packages/ternimal { };
               codemod = base.callPackage ./packages/codemod { };
               my_vi = base.callPackage ./packages/my_vi { };
-              luafmt = base.callPackage ./packages/luafmt { };
               pms = base.callPackage ./packages/pms { };
               source-code-pro-nerdfont =
                 base.callPackage ./packages/source-code-pro-nerdfont { };
-              lain = base.callPackage ./packages/lain { };
-              awesome-wm-widgets =
-                base.callPackage ./packages/awesome-wm-widgets { };
-              splatmoji = base.callPackage ./packages/splatmoji { };
+              kbct = base.callPackage ./packages/kbct.nix { };
+              yofi = base.callPackage ./packages/yofi.nix { };
             } // (mkIf (!isAarch32) {
               jgrestic = jgrestic.defaultPackage.${system};
               jgsysutil = jgsysutil.defaultPackage.${system};
@@ -77,6 +74,7 @@
             jgnsHome = { ... }: {
               imports = (map (mkModule extra) ([
                 ./home-manager/alacritty.nix
+                ./home-manager/rofimoji.nix
                 ./home-manager/base.nix
                 ./home-manager/bash.nix
                 ./home-manager/beets.nix
@@ -102,7 +100,6 @@
               imports = map (mkModule extra) [
                 ./nixos/common.nix
                 ./nixos/encrypted.nix
-                ./nixos/trackpad.nix
                 ./nixos/laptop-power.nix
                 ./nixos/duckdns.nix
                 ./nixos/tailscale.nix

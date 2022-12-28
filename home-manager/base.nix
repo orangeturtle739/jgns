@@ -1,4 +1,4 @@
-{ unstable, luafmt, my_vi, pms, solarwolf, ternimal, ... }@extra:
+{ unstable, my_vi, pms, solarwolf, ternimal, ... }@extra:
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.jgns.base;

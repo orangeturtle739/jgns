@@ -1,4 +1,4 @@
-{ unstable, luafmt, my_vi, pms, solarwolf, ternimal, ... }@extra:
+{ unstable, my_vi, pms, solarwolf, ternimal, ... }@extra:
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.jgns.common;
@@ -35,7 +35,7 @@ in {
         vlc
         wally-cli
         yubikey-manager
-      ] ++ [ luafmt solarwolf ternimal ];
+      ] ++ [ solarwolf ternimal ];
   };
 }
 

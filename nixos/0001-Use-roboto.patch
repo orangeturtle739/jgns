@@ -1,0 +1,27 @@
+From f30e337cec0818fd12fead55e470bd6e51cb8cf2 Mon Sep 17 00:00:00 2001
+From: Jacob Glueck <swimgiraffe435@gmail.com>
+Date: Tue, 20 Dec 2022 20:08:13 -0800
+Subject: [PATCH] Use roboto
+
+---
+ src/widgets/login.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/widgets/login.rs b/src/widgets/login.rs
+index 2c79844..46f05f6 100644
+--- a/src/widgets/login.rs
++++ b/src/widgets/login.rs
+@@ -55,8 +55,8 @@ impl Login {
+             command: cmd,
+             mode: None,
+             error: "".to_string(),
+-            headline_font: Font::new(&DEJAVUSANS_MONO, 72.0),
+-            prompt_font: Font::new(&DEJAVUSANS_MONO, 32.0),
++            headline_font: Font::new(&ROBOTO_REGULAR, 72.0),
++            prompt_font: Font::new(&ROBOTO_REGULAR, 32.0),
+             dirty: false,
+             stream: None,
+         };
+-- 
+2.38.1
+

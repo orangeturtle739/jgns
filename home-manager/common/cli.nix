@@ -1,4 +1,4 @@
-{ luafmt, my_vi, pms, solarwolf, ternimal, ... }@extra:
+{ my_vi, pms, solarwolf, ternimal, ... }@extra:
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.jgns.common.cli;

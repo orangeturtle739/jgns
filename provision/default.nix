@@ -62,7 +62,6 @@ in {
 
   jgns = {
     # common.enable = true;
-    # trackpad.enable = true;
   };
 
   boot.blacklistedKernelModules = [ "nouveau" ];
