@@ -1,4 +1,3 @@
-{ duckdns-update, ... }:
 { config, lib, pkgs, ... }:
 
 with lib;
@@ -48,7 +47,8 @@ in {
       services.duckdns = {
         serviceConfig = {
           Type = "simple";
-          ExecStart = "${duckdns-update}/bin/duckdns-update ${cfg.configFile}";
+          ExecStart =
+            "${pkgs.duckdns-update}/bin/duckdns-update ${cfg.configFile}";
         };
       };
     };

@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     # nixpkgs.url = "/home/jacob/git/nixpkgs";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       url = "github:rycee/home-manager/release-22.11";
@@ -22,14 +21,10 @@
       url = "github:orangeturtle739/duckdns-update";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, flake-utils
-    , jgrestic, jgsysutil, duckdns-update, hyprland }:
+  outputs = { self, nixpkgs, home-manager, flake-utils, jgrestic, jgsysutil
+    , duckdns-update }:
     let
       mkIf = cond: value:
         if cond then
@@ -45,72 +40,60 @@
       packageSet = flake-utils.lib.eachSystem [ "x86_64-linux" "armv7l-linux" ]
         (system:
           let
-            importNixpkgs = pkgs:
-              import pkgs {
-                inherit system;
-                config = { allowUnfree = true; };
-              };
-            base = importNixpkgs nixpkgs;
-            base-unstable = importNixpkgs nixpkgs-unstable;
-            isAarch32 = system == "armv7l-linux";
-            jgnsPackages = {
-              duckdns-update = duckdns-update.defaultPackage.${system};
-              solarwolf = base.callPackage ./packages/solarwolf { };
-              ternimal = base.callPackage ./packages/ternimal { };
-              codemod = base.callPackage ./packages/codemod { };
-              my_vi = base.callPackage ./packages/my_vi { };
-              pms = base.callPackage ./packages/pms { };
-              source-code-pro-nerdfont =
-                base.callPackage ./packages/source-code-pro-nerdfont { };
-              kbct = base.callPackage ./packages/kbct.nix { };
-              yofi = base.callPackage ./packages/yofi.nix { };
-            } // (mkIf (!isAarch32) {
-              jgrestic = jgrestic.defaultPackage.${system};
-              jgsysutil = jgsysutil.defaultPackage.${system};
-            });
-
-            extra = { unstable = base-unstable; } // jgnsPackages;
-            mkModule = arg: path: import path arg;
+            jgnsOverlay = final: prev:
+              prev.lib.composeManyExtensions [
+                duckdns-update.overlays.default
+                jgsysutil.overlays.default
+                jgrestic.overlays.default
+                (final: prev: {
+                  solarwolf = prev.callPackage ./packages/solarwolf { };
+                  source-code-pro-nerdfont =
+                    prev.callPackage ./packages/source-code-pro-nerdfont { };
+                  ternimal = prev.callPackage ./packages/ternimal { };
+                  jgvi = prev.callPackage ./packages/jgvi.nix { };
+                })
+              ] final prev;
             jgnsHome = { ... }: {
-              imports = (map (mkModule extra) ([
-                ./home-manager/alacritty.nix
-                ./home-manager/rofimoji.nix
-                ./home-manager/base.nix
-                ./home-manager/bash.nix
-                ./home-manager/beets.nix
-                ./home-manager/chromium.nix
-                ./home-manager/common.nix
-                ./home-manager/common/cli.nix
-                ./home-manager/git.nix
-                ./home-manager/gpg-ssh.nix
-                ./home-manager/graphical-session
-                ./home-manager/htop.nix
-                ./home-manager/konsole
-                ./home-manager/lorri.nix
-                ./home-manager/mpd.nix
-                ./home-manager/ssh-tunnel.nix
-                ./home-manager/starship.nix
-                ./home-manager/tmux
-                ./home-manager/udiskie.nix
-                ./home-manager/vi.nix
-              ] ++ (mkIf (!isAarch32) [ ./home-manager/backup.nix ])))
-                ++ [ hyprland.homeManagerModules.default ];
-            };
-            jgnsNixos = { ... }: {
-              imports = map (mkModule extra) [
-                ./nixos/common.nix
-                ./nixos/encrypted.nix
-                ./nixos/laptop-power.nix
-                ./nixos/duckdns.nix
-                ./nixos/tailscale.nix
+              imports = [
+                (import ./home-manager/alacritty.nix)
+                (import ./home-manager/rofimoji.nix)
+                (import ./home-manager/base.nix)
+                (import ./home-manager/bash.nix)
+                (import ./home-manager/beets.nix)
+                (import ./home-manager/chromium.nix)
+                (import ./home-manager/common.nix)
+                (import ./home-manager/common/cli.nix)
+                (import ./home-manager/git.nix)
+                (import ./home-manager/gpg-ssh.nix)
+                (import ./home-manager/graphical-session)
+                (import ./home-manager/htop.nix)
+                (import ./home-manager/lorri.nix)
+                (import ./home-manager/mpd.nix)
+                (import ./home-manager/ssh-tunnel.nix)
+                (import ./home-manager/starship.nix)
+                (import ./home-manager/tmux)
+                (import ./home-manager/udiskie.nix)
+                (import ./home-manager/vi.nix)
+                (import ./home-manager/backup.nix)
+                ({ ... }: { nixpkgs.overlays = [ jgnsOverlay ]; })
               ];
             };
-            provision = mkIf (!isAarch32) {
+            jgnsNixos = { ... }: {
+              imports = [
+                (import ./nixos/common.nix)
+                (import ./nixos/encrypted.nix)
+                (import ./nixos/laptop-power.nix)
+                (import ./nixos/duckdns.nix)
+                (import ./nixos/tailscale.nix)
+                ({ ... }: { nixpkgs.overlays = [ jgnsOverlay ]; })
+              ];
+            };
+            provision = {
               jgns-image = (nixpkgs.lib.nixosSystem rec {
                 inherit system;
                 modules = [
                   jgnsNixos
-                  (mkModule extra ./provision {
+                  (import ./provision {
                     inherit jgnsHome home-manager nixpkgs;
                     vstring =
                       if self ? rev then self.rev else self.lastModifiedDate;
@@ -119,7 +102,7 @@
               }).config.system.build.isoImage;
             };
           in {
-            packages = jgnsPackages // provision;
+            packages = provision;
             homeModules = { jgns = jgnsHome; };
             nixosModules = { jgns = jgnsNixos; };
           });

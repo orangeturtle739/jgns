@@ -1,4 +1,3 @@
-{ source-code-pro-nerdfont, ... }:
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.jgns.alacritty;
@@ -15,12 +14,12 @@ in {
       type = types.ints.unsigned;
       default = 8;
       description = ''
-        Konsole font size.
+        font size
       '';
     };
   };
   config = mkIf cfg.enable {
-    home.packages = [ source-code-pro-nerdfont ];
+    home.packages = with pkgs; [ source-code-pro-nerdfont ];
     programs.alacritty = {
       enable = true;
       settings = {

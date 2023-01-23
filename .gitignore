@@ -3,4 +3,7 @@
 *.netrwhist
 result
 .direnv
-docs
+docs/_static
+docs/_build
+docs/_templates
+*.iso

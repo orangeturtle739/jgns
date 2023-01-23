@@ -1,8 +1,5 @@
-{ kbct, ... }:
 { config, lib, pkgs, ... }:
-
 with lib;
-
 let cfg = config.jgns.common;
 in {
   options.jgns.common = {
@@ -72,7 +69,6 @@ in {
       wget
       lightlocker
       keyd
-      kbct
       (pkgs.writeScriptBin "home-rebuild" ''
         nix run "$@" .#$(hostname)-home
       '')

@@ -1,12 +1,12 @@
-{ python3Packages, libmikmod, fetchFromGitHub }:
+{ lib, python3Packages, libmikmod, fetchFromGitHub }:
 python3Packages.buildPythonApplication rec {
   pname = "solarwolf";
-  version = "7d09103f10d6b00f5ac71dcffdd66b90ce74def1";
+  version = "40bc2292b42100be3c442d30bbfc096c3326e2e1";
   src = fetchFromGitHub {
-    owner = "limburgher";
+    owner = "pygame";
     repo = "solarwolf";
-    rev = "7d09103f10d6b00f5ac71dcffdd66b90ce74def1";
-    sha256 = "104c514nvh46kh8jrjqyz4knk3xpxq01wg4c5xl3hvxa95dyl3vx";
+    rev = "40bc2292b42100be3c442d30bbfc096c3326e2e1";
+    sha256 = "bgKb57XjnbDxN3BD7b8HbAx9WEIebMmJCxKwsIwzxkE=";
   };
   dontUseSetuptoolsCheck = true;
   propagatedBuildInputs = with python3Packages; [ pytest pygame ];

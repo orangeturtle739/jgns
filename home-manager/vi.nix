@@ -1,4 +1,3 @@
-{ my_vi, ... }@extra:
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.jgns.vi;
@@ -14,8 +13,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.sessionVariables = { EDITOR = "${extra.my_vi}/bin/vim"; };
-    home.packages = [ my_vi ];
+    home.sessionVariables = { EDITOR = "${pkgs.jgvi}/bin/vim"; };
+    home.packages = [ pkgs.jgvi ];
   };
 }
 

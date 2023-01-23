@@ -1,4 +1,3 @@
-{ unstable, ... }:
 { config, lib, pkgs, ... }:
 with lib;
 let cfg = config.jgns.starship;
@@ -15,7 +14,6 @@ in {
   config = mkIf cfg.enable {
     programs.starship = {
       enable = true;
-      package = unstable.starship;
       settings = {
         python.disabled = true;
         env_var = {

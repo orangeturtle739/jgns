@@ -1,4 +1,3 @@
-{ jgrestic, ... }:
 { config, lib, pkgs, ... }:
 with lib;
 let
@@ -36,7 +35,7 @@ in {
     };
   };
   config = mkIf (cfg != { }) {
-    home.packages = [ jgrestic pkgs.restic ];
+    home.packages = [ pkgs.jgrestic pkgs.restic ];
     # Put the configuration file in the config dir so the user can easily
     # run jgrestic ~/.config/jgrestic/...
     # However, for the systemd unit, use the nix store file so the systemd
@@ -54,7 +53,7 @@ in {
           Unit = { Description = "Backup service ${cfg.name}"; };
           Service = {
             Type = "simple";
-            ExecStart = "${jgrestic}/bin/jgrestic backup ${
+            ExecStart = "${pkgs.jgrestic}/bin/jgrestic backup ${
                 mkConfigFile cfg.backupConfig
               }";
           };
