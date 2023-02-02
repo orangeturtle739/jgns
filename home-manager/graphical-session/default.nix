@@ -301,24 +301,25 @@ in {
       font = "${cfg.fonts.sans-serif.font} ${builtins.toString cfg.fontSize}";
     };
     home.packages = with pkgs; [
-      swaylock
-      wev
-      swaysome
-      i3status-rust
-      cfg.fonts.sans-serif.package
-      cfg.fonts.serif.package
-      cfg.fonts.monospace.package
       cfg.fonts.emoji.package
       cfg.fonts.icon.package
+      cfg.fonts.monospace.package
+      cfg.fonts.sans-serif.package
+      cfg.fonts.serif.package
+      dolphin
       drm_info
+      gnome3.gnome-themes-extra
+      grim
+      i3status-rust
+      playerctl
+      shutter
+      slurp
+      swaybg
+      swaylock
+      swaysome
+      wev
       wl-clipboard
       wtype
-      playerctl
-      swaybg
-      shutter
-      grim
-      slurp
-      gnome3.gnome-themes-extra
       (pkgs.writeShellScriptBin "start_wayland" ''
         exec systemd-cat --identifier=sway sway $@
       '')

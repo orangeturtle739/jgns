@@ -7,17 +7,13 @@ let
       ({ config, pkgs, ... }: {
         imports = [ jgnsHome ];
         jgns = {
-          # common.enable = true;
+          # handy.enable = true;
           git.enable = true;
-          # gpg-ssh.enable = true;
+          gpg-ssh.enable = true;
           htop.enable = true;
           bash.enable = true;
           starship.enable = true;
-          # lorri.enable = true;
           tmux.enable = true;
-          # konsole.enable = true;
-          # chromium.enable = true;
-          # graphical-session.enable = true;
         };
         programs.git.enable = true;
         home = {
@@ -39,6 +35,8 @@ in {
     "${nixpkgs}/nixos/modules/installer/tools/tools.nix"
   ];
 
+  services.xserver.enable = false;
+
   system.stateVersion = "22.11";
 
   environment.systemPackages = with pkgs; [
@@ -52,16 +50,6 @@ in {
     wget
     jgsysutil
   ];
-
-  # https://www.virtualbox.org/ticket/19516
-  # Linux kernel version: 5.7 - we need changes (fixed in 6.1.10)
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
-  # virtualisation.virtualbox.guest.enable = pkgs.stdenv.hostPlatform.system == "x86_64-linux";
-  # virtualisation.virtualbox.guest.enable = builtins.trace pkgs.stdenv.hostPlatform.system false;
-
-  jgns = {
-    # common.enable = true;
-  };
 
   boot.blacklistedKernelModules = [ "nouveau" ];
 

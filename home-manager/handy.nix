@@ -1,13 +1,13 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.jgns.common.cli;
+let cfg = config.jgns.handy;
 in {
-  options.jgns.common.cli = {
+  options.jgns.handy = {
     enable = mkOption {
       type = types.bool;
       default = false;
       description = ''
-        Enable usefull CLI tools
+        Enable handy CLI tools
       '';
     };
   };

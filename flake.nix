@@ -26,66 +26,56 @@
   outputs = { self, nixpkgs, home-manager, flake-utils, jgrestic, jgsysutil
     , duckdns-update }:
     let
-      mkIf = cond: value:
-        if cond then
-          value
-        else if builtins.isAttrs value then
-          { }
-        else if builtins.isList value then
-          [ ]
-        else if builtins.isString value then
-          ""
-        else
-          builtins.abort "uhoh";
       packageSet = flake-utils.lib.eachSystem [ "x86_64-linux" "armv7l-linux" ]
         (system:
           let
-            jgnsOverlay = final: prev:
-              prev.lib.composeManyExtensions [
-                duckdns-update.overlays.default
-                jgsysutil.overlays.default
-                jgrestic.overlays.default
-                (final: prev: {
-                  solarwolf = prev.callPackage ./packages/solarwolf { };
-                  source-code-pro-nerdfont =
-                    prev.callPackage ./packages/source-code-pro-nerdfont { };
-                  ternimal = prev.callPackage ./packages/ternimal { };
-                  jgvi = prev.callPackage ./packages/jgvi.nix { };
-                })
-              ] final prev;
+            overlays = [
+              duckdns-update.overlays.default
+              jgsysutil.overlays.default
+              jgrestic.overlays.default
+              (final: prev: {
+                solarwolf = prev.callPackage ./packages/solarwolf { };
+                source-code-pro-nerdfont =
+                  prev.callPackage ./packages/source-code-pro-nerdfont { };
+                ternimal = prev.callPackage ./packages/ternimal { };
+                jgvi = prev.callPackage ./packages/jgvi.nix { };
+              })
+            ];
             jgnsHome = { ... }: {
               imports = [
                 (import ./home-manager/alacritty.nix)
-                (import ./home-manager/rofimoji.nix)
+                (import ./home-manager/backup.nix)
                 (import ./home-manager/base.nix)
                 (import ./home-manager/bash.nix)
                 (import ./home-manager/beets.nix)
                 (import ./home-manager/chromium.nix)
-                (import ./home-manager/common.nix)
-                (import ./home-manager/common/cli.nix)
+                (import ./home-manager/fun.nix)
                 (import ./home-manager/git.nix)
                 (import ./home-manager/gpg-ssh.nix)
                 (import ./home-manager/graphical-session)
+                (import ./home-manager/handy.nix)
                 (import ./home-manager/htop.nix)
                 (import ./home-manager/lorri.nix)
                 (import ./home-manager/mpd.nix)
+                (import ./home-manager/office.nix)
+                (import ./home-manager/rofimoji.nix)
                 (import ./home-manager/ssh-tunnel.nix)
                 (import ./home-manager/starship.nix)
                 (import ./home-manager/tmux)
                 (import ./home-manager/udiskie.nix)
                 (import ./home-manager/vi.nix)
-                (import ./home-manager/backup.nix)
-                ({ ... }: { nixpkgs.overlays = [ jgnsOverlay ]; })
+                ({ ... }: { nixpkgs.overlays = overlays; })
               ];
             };
             jgnsNixos = { ... }: {
               imports = [
                 (import ./nixos/common.nix)
-                (import ./nixos/encrypted.nix)
-                (import ./nixos/laptop-power.nix)
                 (import ./nixos/duckdns.nix)
+                (import ./nixos/encrypted.nix)
+                (import ./nixos/keyd.nix)
+                (import ./nixos/laptop-power.nix)
                 (import ./nixos/tailscale.nix)
-                ({ ... }: { nixpkgs.overlays = [ jgnsOverlay ]; })
+                ({ ... }: { nixpkgs.overlays = overlays; })
               ];
             };
             provision = {
