@@ -41,6 +41,7 @@ in {
       procs
       pv
       ripgrep
+      rnr
       sd
       sl
       socat
