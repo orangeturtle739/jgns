@@ -39,6 +39,14 @@
                   prev.callPackage ./packages/source-code-pro-nerdfont { };
                 ternimal = prev.callPackage ./packages/ternimal { };
                 jgvi = prev.callPackage ./packages/jgvi.nix { };
+                signal-desktop = prev.signal-desktop.overrideAttrs (super: {
+                  # Revert https://github.com/NixOS/nixpkgs/issues/222043
+                  preFixup = ''
+                    gappsWrapperArgs+=(
+                      --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform-hint=auto --enable-features=WaylandWindowDecorations}}"
+                    )
+                  '' + super.preFixup;
+                });
               })
             ];
             jgnsHome = { ... }: {
