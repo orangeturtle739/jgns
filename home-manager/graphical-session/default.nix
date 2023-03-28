@@ -210,6 +210,7 @@ in {
             "${modifier}+p" =
               ''exec grim -g "$(slurp -d)" - | wl-copy -t image/png'';
             "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+            # https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/issues/1352
             "XF86AudioRaiseVolume" =
               "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
             "XF86AudioLowerVolume" =
