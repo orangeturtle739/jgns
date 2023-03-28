@@ -29,7 +29,7 @@ in {
       serviceConfig = { ExecStart = "${pkgs.keyd}/bin/keyd"; };
       restartTriggers = [ config.environment.etc."keyd/default.conf".source ];
     };
-    environment.etc."keyd/default.conf".text = cfg.keyd.config;
+    environment.etc."keyd/default.conf".text = cfg.config;
     programs.wshowkeys.enable = true;
   };
 }
