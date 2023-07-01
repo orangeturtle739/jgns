@@ -224,10 +224,13 @@ in {
               cmd = "move";
               extra = "Shift+";
             }));
-          window.commands = [{
-            command = "floating enable, border pixel";
-            criteria = { title = "^${cfg.centerWindowTitle}$"; };
-          }];
+          window = {
+            commands = [{
+              command = "floating enable, border pixel";
+              criteria = { title = "^${cfg.centerWindowTitle}$"; };
+            }];
+            titlebar = false;
+          };
           seat = { "*" = { hide_cursor = "1000"; }; };
           startup = [
             { command = "swaysome init 1"; }
@@ -261,15 +264,19 @@ in {
             { block = "focused_window"; }
             { block = "music"; }
             {
-              block = "networkmanager";
-              on_click = "alacritty --title ${cfg.centerWindowTitle} -e nmtui";
-            }
-            {
               block = "cpu";
-              format = "{barchart} {utilization}";
+              format = "$barchart $utilization";
             }
             { block = "memory"; }
-            { block = "net"; }
+            {
+              block = "net";
+              format =
+                "$icon {$signal_strength $ssid $frequency|} ^icon_net_down $speed_down.eng(prefix:K) ^icon_net_up $speed_up.eng(prefix:K)";
+              click = [{
+                button = "left";
+                cmd = "alacritty --title ${cfg.centerWindowTitle} -e nmtui";
+              }];
+            }
           ] ++ (lists.optional cfg.laptop { block = "battery"; }) ++ [
             { block = "sound"; }
             {
@@ -281,8 +288,7 @@ in {
           ] ++ (lists.optional cfg.laptop { block = "backlight"; })
             ++ (lists.optional (cfg.openweathermapApiKey != null) {
               block = "weather";
-              format =
-                "{weather} ({location}) {temp} F, {wind} mph {direction}";
+              format = "$weather ($location) $temp F, $wind mph $direction";
               autolocate = true;
               service = {
                 name = "openweathermap";
@@ -292,12 +298,12 @@ in {
             }) ++ [{
               block = "time";
               interval = 1;
-              format = "%a %d %b %Y %H:%M:%S";
+              format = "$timestamp.datetime(f:'%a %d %b %Y %H:%M:%S')";
             }];
         };
       };
     };
-    programs.mako = {
+    services.mako = {
       enable = true;
       font = "${cfg.fonts.sans-serif.font} ${builtins.toString cfg.fontSize}";
     };
