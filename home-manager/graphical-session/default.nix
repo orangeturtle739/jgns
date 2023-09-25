@@ -327,6 +327,7 @@ in {
       wev
       wl-clipboard
       wtype
+      networkmanagerapplet
       (pkgs.writeShellScriptBin "start_wayland" ''
         exec systemd-cat --identifier=sway sway $@
       '')
