@@ -135,12 +135,12 @@ in {
             --replace libwayland-client.so.0 ${pkgs.wayland}/lib/libwayland-client.so.0
           substituteInPlace $cargoDepsCopy/wayland-sys/.cargo-checksum.json \
             --replace d2f7c8d7f9346b750b3adcca6be2e7ddf0ba6c6da43b0f6f34b95e974cd635f2 \
-              873874ca35b1fb7cbccd2fb93d145ba45d8dba2ef82b5752dbaab10d620bd1d6
+              c8ab9f07e2026b8960b79f702b02768600a57cce538329966515f5cca6dd57a0
           substituteInPlace $cargoDepsCopy/smithay-client-toolkit/src/seat/keyboard/ffi.rs \
             --replace libxkbcommon.so.0 ${pkgs.libxkbcommon}/lib/libxkbcommon.so.0
           substituteInPlace $cargoDepsCopy/smithay-client-toolkit/.cargo-checksum.json \
             --replace 3c557fc7129375d0ac473e0b1746931043fb3dd03b248e2e6c1b1b9d3c9be151 \
-              1b0a8b7379a62fcb952421bec98b2a48f1c429d1924499419c684dc21c296b6c
+              06f0fe848401a22f5935043bc566f50718923f61b836c9050da55e8b3206a9d6
         '';
       });
       swayConfig = pkgs.writeText "greetd-sway-config" ''
