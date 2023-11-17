@@ -82,7 +82,7 @@ in {
       }
       (mkIf cfg.swayIntegration {
         wayland.windowManager.sway.config.keybindings = mkOptionDefault {
-          "${config.jgns.graphical-session.modifier}+e" = ''exec "rofimoji"'';
+          "${config.jgns.graphical-session.modifier}+t" = ''exec "rofimoji"'';
         };
       })
     ]))
