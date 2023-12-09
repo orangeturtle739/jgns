@@ -2,11 +2,11 @@
   description = "jgns";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     # nixpkgs.url = "/home/jacob/git/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
-      url = "github:rycee/home-manager/release-23.05";
+      url = "github:rycee/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     jgrestic = {
@@ -26,7 +26,7 @@
   outputs = { self, nixpkgs, home-manager, flake-utils, jgrestic, jgsysutil
     , duckdns-update }:
     let
-      packageSet = flake-utils.lib.eachSystem [ "x86_64-linux" "armv7l-linux" ]
+      packageSet = flake-utils.lib.eachSystem [ "x86_64-linux" ]
         (system:
           let
             overlays = [

@@ -1,7 +1,7 @@
 { stdenv, lib, vimUtils, fetchFromGitHub, ripgrep, fd, bat, git, findutils
 , ncurses, file, coreutils, vim_configurable, vimPlugins, bash, makeWrapper }:
 let
-  tabline = vimUtils.buildVimPluginFrom2Nix {
+  tabline = vimUtils.buildVimPlugin {
     name = "tabline";
     version = "1.0.0";
     src = fetchFromGitHub {

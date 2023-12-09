@@ -22,7 +22,7 @@ in {
       cached-nix-shell
       du-dust
       eva
-      exa
+      eza
       fastmod
       fd
       file

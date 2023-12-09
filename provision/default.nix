@@ -7,7 +7,7 @@ let
       ({ config, pkgs, ... }: {
         imports = [ jgnsHome ];
         jgns = {
-          # handy.enable = true;
+          handy.enable = true;
           git.enable = true;
           gpg-ssh.enable = true;
           htop.enable = true;
@@ -19,7 +19,7 @@ let
         home = {
           username = "nixos";
           homeDirectory = "/home/nixos";
-          stateVersion = "22.11";
+          stateVersion = "23.11";
         };
       })
     ];
@@ -37,7 +37,7 @@ in {
 
   services.xserver.enable = false;
 
-  system.stateVersion = "22.11";
+  system.stateVersion = "23.11";
 
   environment.systemPackages = with pkgs; [
     file
