@@ -130,18 +130,6 @@ in {
     services.greetd = let
       wlgreet = pkgs.greetd.wlgreet.overrideAttrs (super: {
         patchs = super.patches ++ [ ./0001-Use-roboto.patch ];
-        postPatch = ''
-          substituteInPlace $cargoDepsCopy/wayland-sys/src/client.rs \
-            --replace libwayland-client.so.0 ${pkgs.wayland}/lib/libwayland-client.so.0
-          substituteInPlace $cargoDepsCopy/wayland-sys/.cargo-checksum.json \
-            --replace d2f7c8d7f9346b750b3adcca6be2e7ddf0ba6c6da43b0f6f34b95e974cd635f2 \
-              80d3ba651db32aee924ef8d66e7206296c2b74e966c752ebb72593af3246ddc0
-          substituteInPlace $cargoDepsCopy/smithay-client-toolkit/src/seat/keyboard/ffi.rs \
-            --replace libxkbcommon.so.0 ${pkgs.libxkbcommon}/lib/libxkbcommon.so.0
-          substituteInPlace $cargoDepsCopy/smithay-client-toolkit/.cargo-checksum.json \
-            --replace 3c557fc7129375d0ac473e0b1746931043fb3dd03b248e2e6c1b1b9d3c9be151 \
-              f02048ed621106ae4f73a6e4df6f71dda9b675dff16c95d7b1714685103509a5
-        '';
       });
       swayConfig = pkgs.writeText "greetd-sway-config" ''
             # `-l` activates layer-shell mode. Notice that `swaymsg exit` will run after gtkgreet.
