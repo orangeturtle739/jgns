@@ -127,24 +127,11 @@ in {
     hardware.opengl.enable = true;
     # https://github.com/NixOS/nixpkgs/blob/6e284c8889b3e8a70cbabb5bde478bd2b9e88347/pkgs/applications/window-managers/sway/lock.nix#L31
     security.pam.services.swaylock = { };
-    services.greetd = let
-      wlgreet = pkgs.greetd.wlgreet.overrideAttrs (super: {
-        patchs = super.patches ++ [ ./0001-Use-roboto.patch ];
-      });
-      swayConfig = pkgs.writeText "greetd-sway-config" ''
-            # `-l` activates layer-shell mode. Notice that `swaymsg exit` will run after gtkgreet.
-              exec "${wlgreet}/bin/wlgreet --command start_wayland; swaymsg exit"
-              bindsym Mod4+shift+e exec swaynag \
-        	-t warning \
-        	-m 'What do you want to do?' \
-        	-b 'Poweroff' 'systemctl poweroff' \
-        	-b 'Reboot' 'systemctl reboot'
-      '';
-    in {
+    services.greetd = {
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.sway}/bin/sway --config ${swayConfig}";
+          command = "${pkgs.greetd.greetd}/bin/agreety --cmd sway";
         };
       };
     };
