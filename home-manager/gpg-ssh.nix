@@ -30,6 +30,7 @@ in {
       defaultCacheTtlSsh = 60 * 60;
       maxCacheTtl = 2 * 60 * 60;
       maxCacheTtlSsh = 2 * 60 * 60;
+      pinentryPackage = pkgs.pinentry-curses;
     };
   };
 }
