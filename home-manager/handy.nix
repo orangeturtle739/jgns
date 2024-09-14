@@ -36,7 +36,7 @@ in {
       nix-index
       nix-prefetch-git
       nix-prefetch-github
-      nixfmt
+      nixfmt-classic
       nmap
       procs
       pv

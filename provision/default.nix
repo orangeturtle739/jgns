@@ -19,7 +19,7 @@ let
         home = {
           username = "nixos";
           homeDirectory = "/home/nixos";
-          stateVersion = "23.11";
+          stateVersion = "24.05";
         };
       })
     ];
@@ -37,7 +37,7 @@ in {
 
   services.xserver.enable = false;
 
-  system.stateVersion = "23.11";
+  system.stateVersion = "24.05";
 
   environment.systemPackages = with pkgs; [
     file
