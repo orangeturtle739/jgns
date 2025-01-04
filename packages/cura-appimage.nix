@@ -24,6 +24,7 @@ let
 
   # The `QT_QPA_PLATFORM=xcb` fixes Wayland support, see
   #     https://github.com/NixOS/nixpkgs/issues/186570#issuecomment-2526277637
+  # -platformtheme gtk3 is from https://github.com/Ultimaker/Cura/issues/16815#issuecomment-1764677045
   script = writeScriptBin wrapperScriptName ''
     #!${stdenv.shell}
     # AppImage version of Cura loses current working directory and treats all paths relateive to $HOME.
@@ -37,7 +38,7 @@ let
       fi
       args+=("$a")
     done
-    QT_QPA_PLATFORM=xcb exec "${curaAppimageToolsWrapped}/bin/${appimageBinName}" "''${args[@]}"
+    QT_QPA_PLATFORM=xcb exec "${curaAppimageToolsWrapped}/bin/${appimageBinName}" -platformtheme gtk3 "''${args[@]}"
   '';
 in stdenv.mkDerivation rec {
   inherit pname version;
