@@ -78,7 +78,6 @@ in {
     services.udev.packages = [ pkgs.yubikey-personalization ];
     users.groups.plugdev = { };
 
-    sound.enable = true;
     hardware.enableRedistributableFirmware = true;
 
     hardware.bluetooth = {
@@ -113,18 +112,15 @@ in {
     programs.system-config-printer.enable = true;
     hardware.sane.enable = true;
 
-    hardware.pulseaudio = {
+    security.rtkit.enable = true;
+    services.pipewire = {
       enable = true;
-      # NixOS allows either a lightweight build (default) or full build of PulseAudio to be installed.
-      # Only the full build has Bluetooth support, so it must be selected here.
-      # pactl list sinks short to get the names of the output devices
-      package = pkgs.pulseaudioFull;
-      extraConfig = ''
-        load-module module-switch-on-connect
-      '';
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
     };
 
-    hardware.opengl.enable = true;
+    hardware.graphics.enable = true;
     # https://github.com/NixOS/nixpkgs/blob/6e284c8889b3e8a70cbabb5bde478bd2b9e88347/pkgs/applications/window-managers/sway/lock.nix#L31
     security.pam.services.swaylock = { };
     services.greetd = {

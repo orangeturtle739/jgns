@@ -315,7 +315,7 @@ in {
       cfg.fonts.serif.package
       dolphin
       drm_info
-      gnome3.gnome-themes-extra
+      gnome-themes-extra
       grim
       i3status-rust
       playerctl
@@ -393,7 +393,7 @@ in {
         name = "Fira Sans 10";
       };
       theme = {
-        package = pkgs.gnome3.gnome-themes-extra;
+        package = pkgs.gnome-themes-extra;
         name = "Adwaita";
       };
       iconTheme = {
