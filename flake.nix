@@ -73,6 +73,7 @@
               (import ./home-manager/tmux)
               (import ./home-manager/udiskie.nix)
               (import ./home-manager/vi.nix)
+              (import ./home-manager/yubikey.nix)
               ({ ... }: { nixpkgs.overlays = overlays; })
             ];
           };

@@ -32,5 +32,9 @@ in {
       maxCacheTtlSsh = 2 * 60 * 60;
       pinentryPackage = pkgs.pinentry-curses;
     };
+
+    # See https://ludovicrousseau.blogspot.com/2019/06/gnupg-and-pcsc-conflicts.html
+    # We want to use PCSD for smart card authentication so yubikeys can be used
+    programs.gpg.scdaemonSettings = { disable-ccid = true; };
   };
 }
