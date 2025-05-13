@@ -42,6 +42,13 @@ in {
         Timeout after which to activate dpms, in seconds.
       '';
     };
+    cursorTimeout = mkOption {
+      type = types.nullOr types.ints.unsigned;
+      default = 1000;
+      description = ''
+        Timeout after which to hide cursor, in milliseconds.
+      '';
+    };
     fontSize = mkOption {
       type = types.float;
       default = 9.0;
@@ -231,7 +238,9 @@ in {
             }];
             titlebar = false;
           };
-          seat = { "*" = { hide_cursor = "1000"; }; };
+          seat = mkIf (cfg.cursorTimeout != null) {
+            "*" = { hide_cursor = "${builtins.toString cfg.cursorTimeout}"; };
+          };
           startup = [
             { command = "swaysome init 1"; }
             { command = "swaybg --image ${cfg.bg}"; }
