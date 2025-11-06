@@ -314,7 +314,8 @@ in {
     };
     services.mako = {
       enable = true;
-      font = "${cfg.fonts.sans-serif.font} ${builtins.toString cfg.fontSize}";
+      settings.font =
+        "${cfg.fonts.sans-serif.font} ${builtins.toString cfg.fontSize}";
     };
     home.packages = with pkgs; [
       cfg.fonts.emoji.package
@@ -322,7 +323,7 @@ in {
       cfg.fonts.monospace.package
       cfg.fonts.sans-serif.package
       cfg.fonts.serif.package
-      dolphin
+      kdePackages.dolphin
       drm_info
       gnome-themes-extra
       grim

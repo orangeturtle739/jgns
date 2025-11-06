@@ -37,17 +37,11 @@ in {
       default = { };
       description = "extra configuration";
     };
-    rofiPackage = mkOption {
-      type = types.package;
-      default = pkgs.rofi-wayland;
-      description = "rofi package to use";
-    };
     rofimojiPackage = mkOption {
       type = types.package;
       default = pkgs.rofimoji.override {
         waylandSupport = true;
         x11Support = false;
-        rofi = cfg.rofiPackage;
       };
       description = "rofimoji package";
     };
@@ -66,7 +60,7 @@ in {
         package = pkgs.rofi-wayland;
         theme = "Monokai";
       };
-      home.packages = [ cfg.rofiPackage ];
+      home.packages = [ pkgs.rofi-wayland ];
     }
     (mkIf cfg.swayIntegration {
       wayland.windowManager.sway.config.keybindings = mkOptionDefault {

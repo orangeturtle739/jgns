@@ -13,6 +13,11 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [ libreoffice-fresh okular vlc simple-scan ];
+    home.packages = with pkgs; [
+      libreoffice-fresh
+      kdePackages.okular
+      vlc
+      simple-scan
+    ];
   };
 }
