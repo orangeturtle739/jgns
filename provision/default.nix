@@ -70,9 +70,6 @@ in {
   };
 
   isoImage.compressImage = false;
-  isoImage.isoBaseName = "nixos-jgns";
-  isoImage.isoName =
-    "${config.isoImage.isoBaseName}-${vstring}-${config.system.nixos.label}-${pkgs.stdenv.hostPlatform.system}.iso";
   isoImage.makeEfiBootable = true;
   isoImage.makeUsbBootable = true;
   isoImage.volumeID = "NIXOS_ISO";

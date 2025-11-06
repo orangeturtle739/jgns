@@ -30,7 +30,7 @@ in {
       defaultCacheTtlSsh = 60 * 60;
       maxCacheTtl = 2 * 60 * 60;
       maxCacheTtlSsh = 2 * 60 * 60;
-      pinentryPackage = pkgs.pinentry-curses;
+      pinentry.package = pkgs.pinentry-curses;
     };
 
     # See https://ludovicrousseau.blogspot.com/2019/06/gnupg-and-pcsc-conflicts.html
