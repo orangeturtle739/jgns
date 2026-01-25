@@ -18,9 +18,9 @@ in {
     systemd.sleep.extraConfig = ''
       HibernateDelaySec=15m
     '';
-    services.logind = {
-      lidSwitch = "suspend-then-hibernate";
-      lidSwitchDocked = "suspend-then-hibernate";
+    services.logind.settings.Login  = {
+      HandleLidSwitch = "suspend-then-hibernate";
+      HandleLidSwitchDocked = "suspend-then-hibernate";
     };
     services.upower = {
       enable = true;
