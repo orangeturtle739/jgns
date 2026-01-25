@@ -14,8 +14,8 @@ in {
 
   config = mkIf cfg.enable {
     programs.git = {
-      aliases = { st = "status -sb"; };
-      extraConfig = {
+      settings = {
+        aliases = { st = "status -sb"; };
         push = { default = "current"; };
         pull = { ff = "only"; };
         init = { defaultBranch = "master"; };
@@ -27,12 +27,8 @@ in {
         #   hint: between its input and output lines.
         # --color-only is also required for interactive.diffFilter for this same
         # reason.
-        core = {
-          pager = "${pkgs.gitAndTools.delta}/bin/delta --side-by-side";
-        };
-        interactive = {
-          diffFilter = "${pkgs.gitAndTools.delta}/bin/delta --color-only";
-        };
+        core = { pager = "${pkgs.delta}/bin/delta --side-by-side"; };
+        interactive = { diffFilter = "${pkgs.delta}/bin/delta --color-only"; };
         delta = {
           syntax-theme = "Monokai Extended";
           line-numbers = true;
@@ -58,11 +54,11 @@ in {
     in ''
       # Fix the width of delta inside FZF
       # https://github.com/wfxr/forgit/issues/121#issuecomment-725358145
-      export FORGIT_DIFF_PAGER='${pkgs.gitAndTools.delta}/bin/delta --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
-      export FORGIT_SHOW_PAGER='${pkgs.gitAndTools.delta}/bin/delta --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+      export FORGIT_DIFF_PAGER='${pkgs.delta}/bin/delta --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
+      export FORGIT_SHOW_PAGER='${pkgs.delta}/bin/delta --side-by-side -w ''${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
       source ${forgit}/forgit.plugin.sh
     '';
-    home.packages = [ pkgs.fzf pkgs.gitAndTools.delta ];
+    home.packages = [ pkgs.fzf pkgs.delta ];
     assertions = [{
       assertion = config.programs.git.enable;
       message = "programs.git.enable must be true to use the jgns config";

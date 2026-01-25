@@ -85,13 +85,13 @@ in {
               font = "Fira Mono";
             };
             emoji = {
-              package = pkgs.noto-fonts-emoji;
+              package = pkgs.noto-fonts-color-emoji;
               font = "Noto Color Emoji";
             };
             icon = {
               type = iconFontSpec;
               package = pkgs.font-awesome;
-              font = "Font Awesome 6 Free";
+              font = "Font Awesome 7 Free";
               extra = { i3status-rs-icon-set-name = "awesome6"; };
             };
           };

@@ -1,5 +1,5 @@
 { stdenv, lib, vimUtils, fetchFromGitHub, ripgrep, fd, bat, git, findutils
-, ncurses, file, coreutils, vim_configurable, vimPlugins, bash, makeWrapper }:
+, ncurses, file, coreutils, vim-full, vimPlugins, bash, makeWrapper }:
 let
   tabline = vimUtils.buildVimPlugin {
     name = "tabline";
@@ -12,7 +12,7 @@ let
     };
     dependencies = [ ];
   };
-  vim = vim_configurable.customize {
+  vim = vim-full.customize {
     name = "vim";
     vimrcConfig = {
       customRC = ''

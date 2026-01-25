@@ -57,10 +57,9 @@ in {
     {
       programs.rofi = {
         enable = true;
-        package = pkgs.rofi-wayland;
         theme = "Monokai";
       };
-      home.packages = [ pkgs.rofi-wayland ];
+      home.packages = [ pkgs.rofi ];
     }
     (mkIf cfg.swayIntegration {
       wayland.windowManager.sway.config.keybindings = mkOptionDefault {

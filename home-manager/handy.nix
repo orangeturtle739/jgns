@@ -20,7 +20,7 @@ in {
       bat
       btop
       cached-nix-shell
-      du-dust
+      dust
       eva
       eza
       fastmod

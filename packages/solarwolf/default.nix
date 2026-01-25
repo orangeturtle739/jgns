@@ -9,6 +9,8 @@ python3Packages.buildPythonApplication rec {
     sha256 = "bgKb57XjnbDxN3BD7b8HbAx9WEIebMmJCxKwsIwzxkE=";
   };
   dontUseSetuptoolsCheck = true;
+  pyproject = true;
+  build-system = [ python3Packages.setuptools ];
   propagatedBuildInputs = with python3Packages; [ pytest pygame ];
 }
 
