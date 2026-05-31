@@ -216,16 +216,17 @@ in {
             "${modifier}+Shift+c" = "kill";
             "${modifier}+p" =
               ''exec grim -g "$(slurp -d)" - | wl-copy -t image/png'';
-            "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+            "XF86AudioMute" =
+              "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
             # https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/issues/1352
             "XF86AudioRaiseVolume" =
-              "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
+              "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
             "XF86AudioLowerVolume" =
-              "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
+              "exec ${pkgs.wireplumber}/bin/wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
             "XF86MonBrightnessUp" = "exec light -A 10";
             "XF86MonBrightnessDown" = "exec light -U 10";
             "XF86AudioMicMute" =
-              "exec pactl set-source-mute @DEFAULT_SOURCE@ toggle";
+              "exec ${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
           } // (mkSwaysomeBindForAllDigits { cmd = "focus"; })
             // (mkSwaysomeBindForAllDigits {
               cmd = "move";
