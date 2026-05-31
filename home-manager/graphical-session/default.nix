@@ -342,17 +342,22 @@ in {
         exec systemd-cat --identifier=sway sway $@
       '')
     ];
-    programs.swaylock.settings = {
-      color = "808080";
-      font-size = 24;
-      indicator-idle-visible = false;
-      indicator-radius = 100;
-      line-color = "ffffff";
-      show-failed-attempts = true;
+    programs.swaylock = {
+      enable = true;
+      settings = {
+        color = "3d3d3d";
+        font-size = 24;
+        indicator-idle-visible = false;
+        indicator-radius = 100;
+        line-color = "ffffff";
+        show-failed-attempts = true;
+      };
     };
     services.swayidle = let
-      lockCommand =
-        "${pkgs.swaylock}/bin/swaylock --daemonize --show-failed-attempts";
+      lockCommand = pkgs.writeShellScript "lock-command" ''
+        ${pkgs.swaylock}/bin/swaylock --daemonize --debug --show-failed-attempts
+        sleep 3
+      '';
       dpmsCommand = state:
         "${config.wayland.windowManager.sway.package}/bin/swaymsg 'output * dpms ${state}'";
     in {
@@ -361,7 +366,7 @@ in {
       timeouts = [
         {
           timeout = cfg.lockTimeout;
-          command = lockCommand;
+          command = "${lockCommand}";
         }
         {
           timeout = cfg.dpmsTimeout;
@@ -372,11 +377,11 @@ in {
       events = [
         {
           event = "before-sleep";
-          command = lockCommand;
+          command = "${lockCommand}";
         }
         {
           event = "lock";
-          command = lockCommand;
+          command = "${lockCommand}";
         }
         {
           event = "unlock";

@@ -57,6 +57,7 @@ in {
       vim
       wget
       keyd
+      dmidecode
       (pkgs.writeScriptBin "home-rebuild" ''
         nix run "$@" .#$(hostname)-home
       '')

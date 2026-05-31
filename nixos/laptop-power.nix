@@ -18,7 +18,7 @@ in {
     systemd.sleep.extraConfig = ''
       HibernateDelaySec=15m
     '';
-    services.logind.settings.Login  = {
+    services.logind.settings.Login = {
       HandleLidSwitch = "suspend-then-hibernate";
       HandleLidSwitchDocked = "suspend-then-hibernate";
     };
