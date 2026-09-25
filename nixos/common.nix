@@ -63,7 +63,7 @@ in {
       '')
     ];
 
-    programs.light.enable = true;
+    hardware.acpilight.enable = true;
     # Needed for blueman_applet, and probably other things
     programs.dconf.enable = true;
 
