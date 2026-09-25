@@ -18,7 +18,7 @@ in {
       enableDefaultConfig = false;
       matchBlocks."*" = {
         forwardAgent = false;
-        addKeysToAgent = "no";
+        addKeysToAgent = "yes";
         compression = false;
         serverAliveInterval = 0;
         serverAliveCountMax = 3;
@@ -40,10 +40,13 @@ in {
     services.gpg-agent = {
       enable = true;
       enableSshSupport = true;
-      defaultCacheTtl = 60 * 60;
-      defaultCacheTtlSsh = 60 * 60;
-      maxCacheTtl = 2 * 60 * 60;
-      maxCacheTtlSsh = 2 * 60 * 60;
+      # Cache long enough that in practice a passphrase is entered once
+      # per gpg-agent lifetime (i.e. per boot). The agent dies on reboot,
+      # so the in-memory cache is cleared regardless of the TTL.
+      defaultCacheTtl = 30 * 24 * 60 * 60;
+      defaultCacheTtlSsh = 30 * 24 * 60 * 60;
+      maxCacheTtl = 30 * 24 * 60 * 60;
+      maxCacheTtlSsh = 30 * 24 * 60 * 60;
       pinentry.package = pkgs.pinentry-curses;
     };
 

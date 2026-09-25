@@ -209,8 +209,8 @@ in {
           in lib.mkOptionDefault ({
             # https://github.com/swaywm/sway/issues/2910#issuecomment-752840549
             "Control+Mod1+l" = ''exec "sleep 0.5; killall -USR1 swayidle"'';
-            "${modifier}+o" = ''exec "swaysome next_output"'';
-            "${modifier}+Shift+o" = ''exec "swaysome prev_output"'';
+            "${modifier}+o" = ''exec "swaysome next-output"'';
+            "${modifier}+Shift+o" = ''exec "swaysome prev-output"'';
             "${modifier}+q" = ''exec "chromium"'';
             "${modifier}+Shift+q" = "exit";
             "${modifier}+Shift+c" = "kill";

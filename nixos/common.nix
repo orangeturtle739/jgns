@@ -129,7 +129,8 @@ in {
       enable = true;
       settings = {
         default_session = {
-          command = "${pkgs.greetd}/bin/agreety --cmd sway";
+          command =
+            ''${pkgs.greetd}/bin/agreety --cmd "sway --unsupported-gpu"'';
         };
       };
     };

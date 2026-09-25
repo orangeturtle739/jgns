@@ -17,6 +17,11 @@ in {
       historyControl = [ "erasedups" "ignoredups" ];
       initExtra = ''
         bind -x '"\C-g":"fg"'
+        # Point gpg-agent at the current tty before every prompt so
+        # pinentry-curses appears in the pane where the command was
+        # actually run (tmux + curses pinentry otherwise races to
+        # whichever pane started bash last).
+        PROMPT_COMMAND='gpg-connect-agent --quiet updatestartuptty /bye >/dev/null 2>&1; '"''${PROMPT_COMMAND:-}"
       '';
     };
   };

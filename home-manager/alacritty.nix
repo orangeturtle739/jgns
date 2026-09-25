@@ -47,7 +47,7 @@ in {
             red = "#b21818";
             green = "#18b218";
             yellow = "#b2b218";
-            blue = "#1818b2";
+            blue = "#5757fa";
             magenta = "#b218b2";
             cyan = "#18b2b2";
             white = "#b2b2b2";
