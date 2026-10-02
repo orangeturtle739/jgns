@@ -375,20 +375,11 @@ in {
           resumeCommand = dpmsCommand "on";
         }
       ];
-      events = [
-        {
-          event = "before-sleep";
-          command = "${lockCommand}";
-        }
-        {
-          event = "lock";
-          command = "${lockCommand}";
-        }
-        {
-          event = "unlock";
-          command = "${pkgs.psmisc}/bin/killall -USR1 swaylock";
-        }
-      ];
+      events = {
+        before-sleep = "${lockCommand}";
+        lock = "${lockCommand}";
+        unlock = "${pkgs.psmisc}/bin/killall -USR1 swaylock";
+      };
     };
 
     jgns.udiskie = {
@@ -412,6 +403,11 @@ in {
         package = pkgs.gnome-themes-extra;
         name = "Adwaita";
       };
+      # home-manager 26.05 changed the default of `gtk4.theme` from
+      # `config.gtk.theme` to `null`. We were getting the old default
+      # implicitly (home.stateVersion < 26.05); state it outright so gtk4
+      # apps keep matching gtk3, independent of stateVersion.
+      gtk4.theme = config.gtk.theme;
       iconTheme = {
         package = pkgs.numix-icon-theme;
         name = "Numix";

@@ -75,6 +75,6 @@ in {
 
   config = {
     systemd.user.services =
-      fold (a: b: a // b) { } (map mkNamedSshTunnel (attrValues cfg));
+      foldr (a: b: a // b) { } (map mkNamedSshTunnel (attrValues cfg));
   };
 }

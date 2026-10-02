@@ -59,7 +59,7 @@ let
       '';
       packages.myVimPackage = with vimPlugins; {
         start = [
-          fugitive
+          vim-fugitive
           fzf-vim
           vim-polyglot
           vim-dispatch
