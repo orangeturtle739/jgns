@@ -15,9 +15,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    systemd.sleep.extraConfig = ''
-      HibernateDelaySec=15m
-    '';
+    systemd.sleep.settings.Sleep = { HibernateDelaySec = "15m"; };
     services.logind.settings.Login = {
       HandleLidSwitch = "suspend-then-hibernate";
       HandleLidSwitchDocked = "suspend-then-hibernate";

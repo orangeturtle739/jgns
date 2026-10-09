@@ -30,7 +30,6 @@ in {
       };
     };
     boot.initrd.luks = {
-      reusePassphrases = true;
       devices = {
         root = {
           preLVM = true;

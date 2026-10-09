@@ -2,11 +2,10 @@
   description = "jgns";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-    # nixpkgs.url = "/home/jacob/git/nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
-      url = "github:rycee/home-manager/release-25.11";
+      url = "github:rycee/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     jgrestic = {
